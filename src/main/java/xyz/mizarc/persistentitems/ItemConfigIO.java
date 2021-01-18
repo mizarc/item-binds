@@ -18,16 +18,16 @@ public class ItemConfigIO {
         folder.mkdir();
     }
 
-    public void addItem(String id, ItemStack item) {
+    public void addItem(String id, ItemStack item, Integer slot) {
         File file = new File(folder, id + ".yml");
         FileConfiguration config = YamlConfiguration.loadConfiguration(file);
 
         config.set("item", item.getType().getKey().toString());
+        config.set("slot", slot);
         config.set("name", item.getItemMeta().getDisplayName());
         if (item.getLore() != null) {
             config.set("lore", item.getLore());
         }
-        config.set("slot", 0);
 
         try {
             config.save(file);
