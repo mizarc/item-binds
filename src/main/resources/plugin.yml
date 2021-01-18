@@ -8,3 +8,7 @@ commands:
     description: Adds item to the list of persistent items
     usage: /<command> <name> <slot>
     permission: persistentitems.additem
+  removeitem:
+    description: Removes item from the list of persistent items
+    usage: /<command> <name>
+    permission: persistentitems.removeitem
