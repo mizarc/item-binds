@@ -29,7 +29,7 @@ public class AddItemCommand implements CommandExecutor {
 
         Player player = (Player) sender;
         ItemStack heldItem = player.getInventory().getItemInMainHand();
-        plugin.getItemConfig().addItem(args[0]);
+        plugin.getItemConfig().addItem(args[0], heldItem);
 
         return true;
     }

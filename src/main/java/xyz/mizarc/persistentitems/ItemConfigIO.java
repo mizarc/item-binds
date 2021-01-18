@@ -1,8 +1,8 @@
 package xyz.mizarc.persistentitems;
 
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
@@ -18,9 +18,16 @@ public class ItemConfigIO {
         folder.mkdir();
     }
 
-    public void addItem(String id) {
+    public void addItem(String id, ItemStack item) {
         File file = new File(folder, id + ".yml");
         FileConfiguration config = YamlConfiguration.loadConfiguration(file);
+
+        config.set("item", item.getType().getKey().toString());
+        config.set("name", item.getItemMeta().getDisplayName());
+        if (item.getLore() != null) {
+            config.set("lore", item.getLore());
+        }
+        config.set("slot", 0);
 
         try {
             config.save(file);
