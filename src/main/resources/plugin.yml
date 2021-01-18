@@ -1,0 +1,10 @@
+name: PersistentItems
+version: 1.0
+api-version: 1.16
+main: xyz.mizarc.persistentitems.PersistentItems
+
+commands:
+  additem:
+    description: Adds item to the list of persistent items
+    usage: /<command> <name>
+    permission: persistentitems.additem

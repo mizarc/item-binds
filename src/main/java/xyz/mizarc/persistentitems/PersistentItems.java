@@ -14,7 +14,7 @@ public class PersistentItems extends JavaPlugin {
 
         itemConfig = new ItemConfigIO(this);
 
-        this.getCommand("add").setExecutor(new AddItemCommand());
+        this.getCommand("additem").setExecutor(new AddItemCommand(this));
     }
 
     @Override
