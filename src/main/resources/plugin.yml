@@ -6,5 +6,5 @@ main: xyz.mizarc.persistentitems.PersistentItems
 commands:
   additem:
     description: Adds item to the list of persistent items
-    usage: /<command> <name>
+    usage: /<command> <name> <slot>
     permission: persistentitems.additem
