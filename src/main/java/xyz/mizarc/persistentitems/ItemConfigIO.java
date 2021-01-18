@@ -36,7 +36,10 @@ public class ItemConfigIO {
         }
     }
 
-    public void removeItem() {
+    public boolean removeItem(String id) {
+        File file = new File(folder, id + ".yml");
 
+        boolean deleteResult = file.delete();
+        return deleteResult;
     }
 }
