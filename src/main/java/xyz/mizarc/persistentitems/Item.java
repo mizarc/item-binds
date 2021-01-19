@@ -10,6 +10,17 @@ public class Item {
     private int slot;
     private List<String> commands = new ArrayList<>();
 
+    public Item(ItemStack item, Integer slot) {
+        this.item = item;
+        this.slot = slot;
+    }
+
+    public Item(ItemStack item, Integer slot, List<String> commands) {
+        this.item = item;
+        this.slot = slot;
+        this.commands = commands;
+    }
+
     public ItemStack getItem() {
         return item;
     }
