@@ -8,12 +8,15 @@ import xyz.mizarc.persistentitems.commands.RemoveItemCommand;
 public class PersistentItems extends JavaPlugin {
     private FileConfiguration config = getConfig();
     private ItemConfigIO itemConfig;
+    private ItemContainer itemContainer;
 
     @Override
     public void onEnable() {
         super.onEnable();
 
         itemConfig = new ItemConfigIO(this);
+        itemContainer = new ItemContainer(this);
+        itemContainer.loadActiveItems();
 
         this.getCommand("additem").setExecutor(new AddItemCommand(this));
         this.getCommand("removeitem").setExecutor(new RemoveItemCommand(this));
