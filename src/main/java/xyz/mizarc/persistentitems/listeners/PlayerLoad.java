@@ -5,7 +5,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 import xyz.mizarc.persistentitems.Item;
 import xyz.mizarc.persistentitems.PersistentItems;
 
@@ -21,15 +20,11 @@ public class PlayerLoad implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Inventory inventory = event.getPlayer().getInventory();
-        ItemStack[] contents = inventory.getContents();
-
         Set<Item> activeItems = plugin.getItemContainer().getAllItems();
 
         for (Item activeItem : activeItems) {
-            for (ItemStack item : contents) {
-                if (activeItem.getItemStack(plugin) == item) {
-                    return;
-                }
+            if (inventory.contains(activeItem.getItemStack(plugin))) {
+                break;
             }
             giveItem(event.getPlayer(), activeItem);
         }
