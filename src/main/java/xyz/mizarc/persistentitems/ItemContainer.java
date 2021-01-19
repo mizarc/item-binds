@@ -18,4 +18,13 @@ public class ItemContainer {
     public void loadItem(Item item) {
         activeItems.add(item);
     }
+
+    public Item getItem(String id) {
+        for (Item item : activeItems) {
+            if (item.getId().equals(id)) {
+                return item;
+            }
+        }
+        return null;
+    }
 }

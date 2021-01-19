@@ -43,7 +43,7 @@ public class ItemConfigIO {
         itemMeta.setLore(config.getStringList("lore"));
         itemStack.setItemMeta(itemMeta);
 
-        return new Item(itemStack, config.getInt("slot"), config.getStringList("commands"));
+        return new Item(id, itemStack, config.getInt("slot"), config.getStringList("commands"));
     }
 
     public Item getItemIfActive(String id) {
@@ -60,7 +60,7 @@ public class ItemConfigIO {
         itemMeta.setLore(config.getStringList("lore"));
         itemStack.setItemMeta(itemMeta);
 
-        return new Item(itemStack, config.getInt("slot"), config.getStringList("commands"));
+        return new Item(id, itemStack, config.getInt("slot"), config.getStringList("commands"));
     }
 
     public void addItem(String id, ItemStack item, Integer slot) {

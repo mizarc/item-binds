@@ -6,22 +6,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Item {
+    private String id;
     private ItemStack item;
     private int slot;
     private List<String> commands = new ArrayList<>();
 
-    public Item(ItemStack item, Integer slot) {
+    public Item(String id, ItemStack item, Integer slot) {
+        this.id = id;
         this.item = item;
         this.slot = slot;
     }
 
-    public Item(ItemStack item, Integer slot, List<String> commands) {
+    public Item(String id, ItemStack item, Integer slot, List<String> commands) {
+        this.id = id;
         this.item = item;
         this.slot = slot;
         this.commands = commands;
     }
 
-    public ItemStack getItem() {
+    public String getId() {
+        return id;
+    }
+
+    public void setId() {
+        this.id = id;
+    }
+
+    public ItemStack getItemStack() {
         return item;
     }
 
