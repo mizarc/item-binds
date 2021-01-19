@@ -49,6 +49,7 @@ public class ActivateCommand implements CommandExecutor {
             Inventory inventory = player.getInventory();
             if (inventory.getItem(slot) == null) {
                 inventory.setItem(slot, item);
+                continue;
             }
             inventory.addItem(item);
         }
