@@ -27,7 +27,7 @@ public class ItemConfigIO {
         Set<Item> activeItems = new HashSet<>();
         String[] fileNames = folder.list();
         for (String fileName : fileNames) {
-            Item item = getItemIfActive(fileName);
+            Item item = getItemIfActive(fileName.substring(0, fileName.lastIndexOf(".")));
 
             if (item == null) {
                 continue;
