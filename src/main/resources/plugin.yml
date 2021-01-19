@@ -12,3 +12,7 @@ commands:
     description: Removes item from the list of persistent items
     usage: /<command> <name>
     permission: persistentitems.removeitem
+  activateitem:
+    description: Actives the persistent item and puts it in everyone's inventory
+    usage: /<command> <name>
+    permission: persistentitems.activateitem
