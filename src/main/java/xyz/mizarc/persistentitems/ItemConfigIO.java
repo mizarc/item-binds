@@ -37,7 +37,7 @@ public class ItemConfigIO {
         File file = new File(folder, id + ".yml");
         FileConfiguration config = YamlConfiguration.loadConfiguration(file);
 
-        ItemStack itemStack = new ItemStack(Material.getMaterial(config.getString("id")));
+        ItemStack itemStack = new ItemStack(Material.matchMaterial(config.getString("item")));
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setDisplayName(config.getString("name"));
         itemMeta.setLore(config.getStringList("lore"));
@@ -54,7 +54,7 @@ public class ItemConfigIO {
             return null;
         }
 
-        ItemStack itemStack = new ItemStack(Material.getMaterial(config.getString("id")));
+        ItemStack itemStack = new ItemStack(Material.matchMaterial(config.getString("item")));
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setDisplayName(config.getString("name"));
         itemMeta.setLore(config.getStringList("lore"));
