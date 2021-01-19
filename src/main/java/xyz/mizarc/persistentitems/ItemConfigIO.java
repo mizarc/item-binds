@@ -28,6 +28,10 @@ public class ItemConfigIO {
         String[] fileNames = folder.list();
         for (String fileName : fileNames) {
             Item item = getItemIfActive(fileName);
+
+            if (item == null) {
+                continue;
+            }
             activeItems.add(item);
         }
         return activeItems;
