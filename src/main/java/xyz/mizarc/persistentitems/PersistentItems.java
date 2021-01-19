@@ -8,6 +8,7 @@ import xyz.mizarc.persistentitems.commands.AddItemCommand;
 import xyz.mizarc.persistentitems.commands.RemoveItemCommand;
 import xyz.mizarc.persistentitems.listeners.PlayerLoad;
 import xyz.mizarc.persistentitems.listeners.PreventItemRemoval;
+import xyz.mizarc.persistentitems.listeners.RunLinkedCommand;
 
 public class PersistentItems extends JavaPlugin {
     private FileConfiguration config = getConfig();
@@ -25,6 +26,7 @@ public class PersistentItems extends JavaPlugin {
         // Listeners
         getServer().getPluginManager().registerEvents(new PlayerLoad(this), this);
         getServer().getPluginManager().registerEvents(new PreventItemRemoval(this), this);
+        getServer().getPluginManager().registerEvents(new RunLinkedCommand(this), this);
 
         // Commands
         this.getCommand("additem").setExecutor(new AddItemCommand(this));

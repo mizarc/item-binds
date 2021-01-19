@@ -49,7 +49,7 @@ public class Item {
         return slot;
     }
 
-    public List<String> commands() {
+    public List<String> getCommands() {
         return commands;
     }
 
