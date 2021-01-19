@@ -10,6 +10,7 @@ import org.bukkit.plugin.Plugin;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class ItemConfigIO {
@@ -97,6 +98,22 @@ public class ItemConfigIO {
         File file = new File(folder, id + ".yml");
         FileConfiguration config = YamlConfiguration.loadConfiguration(file);
         config.set("active", state);
+
+        try {
+            config.save(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addCommand(String id, String command) {
+        File file = new File(folder, id + ".yml");
+        FileConfiguration config = YamlConfiguration.loadConfiguration(file);
+
+        List<String> commands = config.getStringList("commands");
+        commands.add(command);
+
+        config.set("commands", commands);
 
         try {
             config.save(file);

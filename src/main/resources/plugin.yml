@@ -16,3 +16,7 @@ commands:
     description: Actives the persistent item and puts it in everyone's inventory
     usage: /<command> <name>
     permission: persistentitems.activateitem
+  additemcommand:
+    description: Adds a command to a persistent item
+    usage: /<command> <name> <command>
+    permission: persistentitems.additemcommand
