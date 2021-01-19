@@ -23,6 +23,7 @@ public class ItemConfigIO {
         FileConfiguration config = YamlConfiguration.loadConfiguration(file);
 
         config.set("item", item.getType().getKey().toString());
+        config.set("active", false);
         config.set("slot", slot);
         config.set("name", item.getItemMeta().getDisplayName());
         if (item.getLore() != null) {
