@@ -93,5 +93,11 @@ public class ItemConfigIO {
         File file = new File(folder, id + ".yml");
         FileConfiguration config = YamlConfiguration.loadConfiguration(file);
         config.set("active", state);
+
+        try {
+            config.save(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
