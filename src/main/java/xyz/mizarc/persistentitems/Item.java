@@ -40,7 +40,7 @@ public class Item {
         ItemStack itemStack = item;
         ItemMeta itemMeta = item.getItemMeta();
         NamespacedKey key = new NamespacedKey(plugin, "persistent");
-        itemMeta.getPersistentDataContainer().set(key, PersistentDataType.INTEGER, 1);
+        itemMeta.getPersistentDataContainer().set(key, PersistentDataType.STRING, getId());
         itemStack.setItemMeta(itemMeta);
         return itemStack;
     }
