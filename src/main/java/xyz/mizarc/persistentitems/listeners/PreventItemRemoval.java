@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.Inventory;
@@ -48,6 +49,22 @@ public class PreventItemRemoval implements Listener {
         }
 
         if (activeItemStacks.contains(itemStack) && event.getClickedInventory() == otherInv) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onItemMove(InventoryDragEvent event) {
+        ItemStack itemStack = event.getOldCursor();
+        Inventory otherInv = event.getView().getTopInventory();
+
+        Set<Item> activeItems = plugin.getItemContainer().getAllItems();
+        Set<ItemStack> activeItemStacks = new HashSet<>();
+        for (Item activeItem : activeItems) {
+            activeItemStacks.add(activeItem.getItemStack(plugin));
+        }
+
+        if (activeItemStacks.contains(itemStack) && otherInv == event.getInventory()) {
             event.setCancelled(true);
         }
     }
