@@ -30,4 +30,8 @@ public class ItemContainer {
         }
         return null;
     }
+
+    public Set<Item> getAllItems() {
+        return activeItems;
+    }
 }

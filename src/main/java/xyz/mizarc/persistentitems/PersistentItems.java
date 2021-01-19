@@ -5,6 +5,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import xyz.mizarc.persistentitems.commands.ActivateCommand;
 import xyz.mizarc.persistentitems.commands.AddItemCommand;
 import xyz.mizarc.persistentitems.commands.RemoveItemCommand;
+import xyz.mizarc.persistentitems.listeners.PlayerLoad;
 
 public class PersistentItems extends JavaPlugin {
     private FileConfiguration config = getConfig();
@@ -19,6 +20,10 @@ public class PersistentItems extends JavaPlugin {
         itemContainer = new ItemContainer(this);
         itemContainer.loadActiveItems();
 
+        // Listeners
+        getServer().getPluginManager().registerEvents(new PlayerLoad(this), this);
+
+        // Commands
         this.getCommand("additem").setExecutor(new AddItemCommand(this));
         this.getCommand("removeitem").setExecutor(new RemoveItemCommand(this));
         this.getCommand("activateitem").setExecutor(new ActivateCommand(this));
