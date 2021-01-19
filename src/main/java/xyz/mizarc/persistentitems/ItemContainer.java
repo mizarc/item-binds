@@ -21,6 +21,9 @@ public class ItemContainer {
 
     public Item getItem(String id) {
         for (Item item : activeItems) {
+            if (item == null) {
+                continue;
+            }
             if (item.getId().equals(id)) {
                 return item;
             }
