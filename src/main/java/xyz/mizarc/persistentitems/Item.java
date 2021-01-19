@@ -1,6 +1,10 @@
 package xyz.mizarc.persistentitems;
 
+import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,8 +36,13 @@ public class Item {
         this.id = id;
     }
 
-    public ItemStack getItemStack() {
-        return item;
+    public ItemStack getItemStack(Plugin plugin) {
+        ItemStack itemStack = item;
+        ItemMeta itemMeta = item.getItemMeta();
+        NamespacedKey key = new NamespacedKey(plugin, "persistent");
+        itemMeta.getPersistentDataContainer().set(key, PersistentDataType.INTEGER, 1);
+        itemStack.setItemMeta(itemMeta);
+        return itemStack;
     }
 
     public int getSlot() {
