@@ -14,4 +14,8 @@ public class ItemContainer {
     public void loadActiveItems() {
         activeItems.addAll(plugin.getItemConfig().getActiveItems());
     }
+
+    public void loadItem(Item item) {
+        activeItems.add(item);
+    }
 }

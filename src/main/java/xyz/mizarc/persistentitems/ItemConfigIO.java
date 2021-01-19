@@ -88,4 +88,10 @@ public class ItemConfigIO {
         boolean deleteResult = file.delete();
         return deleteResult;
     }
+
+    public void setActive(String id, boolean state) {
+        File file = new File(folder, id + ".yml");
+        FileConfiguration config = YamlConfiguration.loadConfiguration(file);
+        config.set("active", state);
+    }
 }

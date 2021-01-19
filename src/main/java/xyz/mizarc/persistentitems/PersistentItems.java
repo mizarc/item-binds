@@ -30,4 +30,8 @@ public class PersistentItems extends JavaPlugin {
     public ItemConfigIO getItemConfig() {
         return itemConfig;
     }
+
+    public ItemContainer getItemContainer() {
+        return itemContainer;
+    }
 }
