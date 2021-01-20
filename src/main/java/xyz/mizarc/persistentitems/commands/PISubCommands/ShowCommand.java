@@ -67,7 +67,7 @@ public class ShowCommand implements SubCommand {
 
     private void removeEntry(Player player, String itemName) {
         DatabaseConnection database = new DatabaseConnection(plugin);
-        if (!database.isHidden(player.getUniqueId().toString(), itemName, "global")) {
+        if (database.isHidden(player.getUniqueId().toString(), itemName, "global")) {
             database.removeHidden(player.getUniqueId().toString(), itemName, "global");
         }
     }
