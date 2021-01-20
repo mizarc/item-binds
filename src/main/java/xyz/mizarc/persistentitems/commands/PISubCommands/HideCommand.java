@@ -69,6 +69,7 @@ public class HideCommand implements SubCommand {
         if (!database.isHidden(player.getUniqueId().toString(), itemName, "global")) {
             database.addHidden(player.getUniqueId().toString(), itemName, "global");
         }
+        database.closeConnection();
     }
 
     private void removeFromInventory(Player player, String itemName) {

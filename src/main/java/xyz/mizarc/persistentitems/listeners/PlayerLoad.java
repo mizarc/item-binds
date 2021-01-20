@@ -38,12 +38,14 @@ public class PlayerLoad implements Listener {
                 break;
             }
 
-            DatabaseConnection connection = new DatabaseConnection(plugin);
-            if (connection.isHidden(player.getUniqueId().toString(), activeItem.getId(), "global")) {
+            DatabaseConnection database = new DatabaseConnection(plugin);
+            if (database.isHidden(player.getUniqueId().toString(), activeItem.getId(), "global")) {
+                database.closeConnection();
                 break;
             }
 
             giveItem(player, activeItem);
+            database.closeConnection();
         }
     }
 

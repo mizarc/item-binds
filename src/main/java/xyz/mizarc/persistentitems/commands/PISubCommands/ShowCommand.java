@@ -70,6 +70,7 @@ public class ShowCommand implements SubCommand {
         if (database.isHidden(player.getUniqueId().toString(), itemName, "global")) {
             database.removeHidden(player.getUniqueId().toString(), itemName, "global");
         }
+        database.closeConnection();
     }
 
     private void addToInventory(Player player, String itemName) {
