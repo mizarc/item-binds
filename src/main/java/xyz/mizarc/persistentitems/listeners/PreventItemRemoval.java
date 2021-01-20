@@ -1,11 +1,15 @@
 package xyz.mizarc.persistentitems.listeners;
 
+import org.bukkit.Material;
+import org.bukkit.entity.ItemFrame;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityInteractEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import xyz.mizarc.persistentitems.Item;
@@ -38,7 +42,7 @@ public class PreventItemRemoval implements Listener {
     }
 
     @EventHandler
-    public void onItemMove(InventoryClickEvent event) {
+    public void onMoveToInventory(InventoryClickEvent event) {
         ItemStack itemStack = event.getCursor();
         Inventory otherInv = event.getView().getTopInventory();
 
@@ -54,7 +58,7 @@ public class PreventItemRemoval implements Listener {
     }
 
     @EventHandler
-    public void onItemMove(InventoryDragEvent event) {
+    public void onDragToInventory(InventoryDragEvent event) {
         ItemStack itemStack = event.getOldCursor();
         Inventory otherInv = event.getView().getTopInventory();
 
@@ -65,6 +69,28 @@ public class PreventItemRemoval implements Listener {
         }
 
         if (activeItemStacks.contains(itemStack) && otherInv == event.getInventory()) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onItemFrameUse(PlayerInteractEntityEvent event) {
+        if (!(event.getRightClicked() instanceof ItemFrame)) {
+            return;
+        }
+
+        Set<Item> activeItems = plugin.getItemContainer().getAllItems();
+        Set<ItemStack> activeItemStacks = new HashSet<>();
+        for (Item activeItem : activeItems) {
+            activeItemStacks.add(activeItem.getItemStack(plugin));
+        }
+
+        if (activeItemStacks.contains(event.getPlayer().getInventory().getItemInMainHand())) {
+            event.setCancelled(true);
+        }
+
+        if (event.getPlayer().getInventory().getItemInMainHand().getType() == Material.AIR &&
+                activeItemStacks.contains(event.getPlayer().getInventory().getItemInOffHand())) {
             event.setCancelled(true);
         }
     }
