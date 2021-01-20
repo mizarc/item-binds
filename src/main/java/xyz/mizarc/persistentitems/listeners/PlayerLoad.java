@@ -4,6 +4,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.Inventory;
 import xyz.mizarc.persistentitems.DatabaseConnection;
 import xyz.mizarc.persistentitems.Item;
@@ -20,7 +21,16 @@ public class PlayerLoad implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        Inventory inventory = event.getPlayer().getInventory();
+        giveItemsIfMissing(event.getPlayer());
+    }
+
+    @EventHandler
+    public void onPlayerRespawn(PlayerRespawnEvent event) {
+        giveItemsIfMissing(event.getPlayer());
+    }
+
+    private void giveItemsIfMissing(Player player) {
+        Inventory inventory = player.getInventory();
         Set<Item> activeItems = plugin.getItemContainer().getAllItems();
 
         for (Item activeItem : activeItems) {
@@ -29,11 +39,11 @@ public class PlayerLoad implements Listener {
             }
 
             DatabaseConnection connection = new DatabaseConnection(plugin);
-            if (connection.isHidden(event.getPlayer().getUniqueId().toString(), activeItem.getId(), "global")) {
+            if (connection.isHidden(player.getUniqueId().toString(), activeItem.getId(), "global")) {
                 break;
             }
 
-            giveItem(event.getPlayer(), activeItem);
+            giveItem(player, activeItem);
         }
     }
 

@@ -2,6 +2,7 @@ package xyz.mizarc.persistentitems.listeners;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
@@ -11,6 +12,7 @@ import xyz.mizarc.persistentitems.Item;
 import xyz.mizarc.persistentitems.PersistentItems;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class PreventItemRemoval implements Listener {
@@ -64,6 +66,23 @@ public class PreventItemRemoval implements Listener {
 
         if (activeItemStacks.contains(itemStack) && otherInv == event.getInventory()) {
             event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onPlayerDeath(PlayerDeathEvent event) {
+        List<ItemStack> droppedItems = event.getDrops();
+
+        Set<Item> activeItems = plugin.getItemContainer().getAllItems();
+        Set<ItemStack> activeItemStacks = new HashSet<>();
+        for (Item activeItem : activeItems) {
+            activeItemStacks.add(activeItem.getItemStack(plugin));
+        }
+
+        for (ItemStack activeItemStack : activeItemStacks) {
+            if (droppedItems.contains(activeItemStack)) {
+                droppedItems.remove(activeItemStack);
+            }
         }
     }
 }
