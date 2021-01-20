@@ -20,6 +20,7 @@ public class PersistentItemsCommand implements CommandExecutor, TabCompleter {
         subcommands.put("activate", new ActivateCommand(plugin));
         subcommands.put("addcommand", new AddCommandCommand(plugin));
         subcommands.put("hide", new HideCommand(plugin));
+        subcommands.put("show", new ShowCommand(plugin));
     }
 
     @Override
