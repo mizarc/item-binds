@@ -59,10 +59,11 @@ public class DatabaseConnection {
             statement.setString(3, world);
             statement.executeUpdate();
             statement.close();
-
+            return true;
         } catch (SQLException error) {
             error.printStackTrace();
         }
+        return false;
     }
 
     public boolean removeHidden(String playerUUID, String itemID, String world) {
@@ -75,10 +76,12 @@ public class DatabaseConnection {
             statement.setString(3, world);
             statement.executeUpdate();
             statement.close();
+            return true;
 
         } catch (SQLException error) {
             error.printStackTrace();
         }
+        return false;
     }
 
     private void createTable() {

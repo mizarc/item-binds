@@ -5,10 +5,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import xyz.mizarc.persistentitems.PersistentItems;
-import xyz.mizarc.persistentitems.commands.PISubCommands.ActivateCommand;
-import xyz.mizarc.persistentitems.commands.PISubCommands.AddCommand;
-import xyz.mizarc.persistentitems.commands.PISubCommands.AddCommandCommand;
-import xyz.mizarc.persistentitems.commands.PISubCommands.RemoveCommand;
+import xyz.mizarc.persistentitems.commands.PISubCommands.*;
 
 import java.util.*;
 
@@ -22,6 +19,7 @@ public class PersistentItemsCommand implements CommandExecutor, TabCompleter {
         subcommands.put("remove", new RemoveCommand(plugin));
         subcommands.put("activate", new ActivateCommand(plugin));
         subcommands.put("addcommand", new AddCommandCommand(plugin));
+        subcommands.put("hide", new HideCommand(plugin));
     }
 
     @Override
