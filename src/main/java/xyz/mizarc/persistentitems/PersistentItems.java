@@ -26,7 +26,8 @@ public class PersistentItems extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new RunLinkedCommand(this), this);
 
         // Commands
-        this.getCommand("persistentitems").setExecutor(new PersistentItemsCommand(this));
+        getCommand("persistentitems").setExecutor(new PersistentItemsCommand(this));
+        getCommand("persistentitems").setTabCompleter(new PersistentItemsCommand(this));
     }
 
     @Override

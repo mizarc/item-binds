@@ -3,17 +3,16 @@ package xyz.mizarc.persistentitems.commands;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import xyz.mizarc.persistentitems.PersistentItems;
 import xyz.mizarc.persistentitems.commands.PISubCommands.ActivateCommand;
 import xyz.mizarc.persistentitems.commands.PISubCommands.AddCommand;
 import xyz.mizarc.persistentitems.commands.PISubCommands.AddCommandCommand;
 import xyz.mizarc.persistentitems.commands.PISubCommands.RemoveCommand;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
-public class PersistentItemsCommand implements CommandExecutor {
+public class PersistentItemsCommand implements CommandExecutor, TabCompleter {
     private PersistentItems plugin;
     private Map<String, SubCommand> subcommands = new HashMap<>();
 
@@ -37,5 +36,12 @@ public class PersistentItemsCommand implements CommandExecutor {
             subCommand.execute(sender, Arrays.copyOfRange(args, 1, args.length));
         }
         return true;
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+        List<String> subCommandNames = new ArrayList<>();
+        subCommandNames.addAll(subcommands.keySet());
+        return subCommandNames;
     }
 }
