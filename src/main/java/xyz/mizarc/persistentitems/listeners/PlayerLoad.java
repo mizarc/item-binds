@@ -5,6 +5,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.Inventory;
+import xyz.mizarc.persistentitems.DatabaseConnection;
 import xyz.mizarc.persistentitems.Item;
 import xyz.mizarc.persistentitems.PersistentItems;
 
@@ -26,6 +27,12 @@ public class PlayerLoad implements Listener {
             if (inventory.contains(activeItem.getItemStack(plugin))) {
                 break;
             }
+
+            DatabaseConnection connection = new DatabaseConnection(plugin);
+            if (connection.isHidden(event.getPlayer().getUniqueId().toString(), activeItem.getId(), "global")) {
+                break;
+            }
+
             giveItem(event.getPlayer(), activeItem);
         }
     }
