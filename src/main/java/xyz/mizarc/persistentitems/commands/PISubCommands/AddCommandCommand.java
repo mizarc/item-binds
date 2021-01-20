@@ -1,20 +1,19 @@
-package xyz.mizarc.persistentitems.commands;
+package xyz.mizarc.persistentitems.commands.PISubCommands;
 
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import xyz.mizarc.persistentitems.ItemContainer;
 import xyz.mizarc.persistentitems.PersistentItems;
+import xyz.mizarc.persistentitems.commands.SubCommand;
 
-public class AddFunctionalityCommand implements CommandExecutor {
+public class AddCommandCommand implements SubCommand {
     PersistentItems plugin;
 
-    public AddFunctionalityCommand(PersistentItems plugin) {
+    public AddCommandCommand(PersistentItems plugin) {
         this.plugin = plugin;
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean execute(CommandSender sender, String[] args) {
         if (args.length == 0) {
             sender.sendMessage("No arguments specified");
             return false;

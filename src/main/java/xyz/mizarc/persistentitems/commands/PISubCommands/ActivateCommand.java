@@ -1,8 +1,6 @@
-package xyz.mizarc.persistentitems.commands;
+package xyz.mizarc.persistentitems.commands.PISubCommands;
 
 import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -11,11 +9,12 @@ import xyz.mizarc.persistentitems.Item;
 import xyz.mizarc.persistentitems.ItemConfigIO;
 import xyz.mizarc.persistentitems.ItemContainer;
 import xyz.mizarc.persistentitems.PersistentItems;
+import xyz.mizarc.persistentitems.commands.SubCommand;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActivateCommand implements CommandExecutor {
+public class ActivateCommand implements SubCommand {
     PersistentItems plugin;
 
     public ActivateCommand(PersistentItems plugin) {
@@ -23,7 +22,7 @@ public class ActivateCommand implements CommandExecutor {
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean execute(CommandSender sender, String[] args) {
         if (args.length == 0) {
             sender.sendMessage("No arguments specified");
             return false;

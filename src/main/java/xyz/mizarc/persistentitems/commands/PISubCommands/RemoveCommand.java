@@ -1,19 +1,18 @@
-package xyz.mizarc.persistentitems.commands;
+package xyz.mizarc.persistentitems.commands.PISubCommands;
 
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import xyz.mizarc.persistentitems.PersistentItems;
+import xyz.mizarc.persistentitems.commands.SubCommand;
 
-public class RemoveItemCommand implements CommandExecutor {
+public class RemoveCommand implements SubCommand {
     private PersistentItems plugin;
 
-    public RemoveItemCommand(PersistentItems plugin) {
+    public RemoveCommand(PersistentItems plugin) {
         this.plugin = plugin;
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean execute(CommandSender sender, String[] args) {
         if (args.length == 0) {
             sender.sendMessage("No arguments specified");
             return false;

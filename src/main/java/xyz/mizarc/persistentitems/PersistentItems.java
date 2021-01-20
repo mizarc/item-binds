@@ -2,10 +2,7 @@ package xyz.mizarc.persistentitems;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
-import xyz.mizarc.persistentitems.commands.ActivateCommand;
-import xyz.mizarc.persistentitems.commands.AddFunctionalityCommand;
-import xyz.mizarc.persistentitems.commands.AddItemCommand;
-import xyz.mizarc.persistentitems.commands.RemoveItemCommand;
+import xyz.mizarc.persistentitems.commands.PersistentItemsCommand;
 import xyz.mizarc.persistentitems.listeners.PlayerLoad;
 import xyz.mizarc.persistentitems.listeners.PreventItemRemoval;
 import xyz.mizarc.persistentitems.listeners.RunLinkedCommand;
@@ -29,10 +26,7 @@ public class PersistentItems extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new RunLinkedCommand(this), this);
 
         // Commands
-        this.getCommand("additem").setExecutor(new AddItemCommand(this));
-        this.getCommand("removeitem").setExecutor(new RemoveItemCommand(this));
-        this.getCommand("activateitem").setExecutor(new ActivateCommand(this));
-        this.getCommand("additemcommand").setExecutor(new AddFunctionalityCommand(this));
+        this.getCommand("persistentitems").setExecutor(new PersistentItemsCommand(this));
     }
 
     @Override

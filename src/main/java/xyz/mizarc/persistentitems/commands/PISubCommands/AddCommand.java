@@ -1,21 +1,20 @@
-package xyz.mizarc.persistentitems.commands;
+package xyz.mizarc.persistentitems.commands.PISubCommands;
 
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import xyz.mizarc.persistentitems.PersistentItems;
+import xyz.mizarc.persistentitems.commands.SubCommand;
 
-public class AddItemCommand implements CommandExecutor {
+public class AddCommand implements SubCommand {
     private PersistentItems plugin;
 
-    public AddItemCommand(PersistentItems plugin) {
+    public AddCommand(PersistentItems plugin) {
         this.plugin = plugin;
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean execute(CommandSender sender, String[] args) {
         if (!(sender instanceof Player)) {
             sender.sendMessage("You must be a player to run this command");
             return false;
