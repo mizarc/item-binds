@@ -8,3 +8,4 @@ commands:
     description: Parent command of modifying persistent items
     usage: /<command> <subcommand>
     permission: persistentitems.main
+    aliases: [pi]
