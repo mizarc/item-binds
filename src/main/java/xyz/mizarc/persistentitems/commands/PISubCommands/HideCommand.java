@@ -1,84 +1,79 @@
 package xyz.mizarc.persistentitems.commands.PISubCommands;
 
-import org.bukkit.Bukkit;
+import co.aikar.commands.BaseCommand;
+import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.Dependency;
+import co.aikar.commands.annotation.Optional;
+import co.aikar.commands.annotation.Subcommand;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import xyz.mizarc.persistentitems.DatabaseConnection;
 import xyz.mizarc.persistentitems.Item;
 import xyz.mizarc.persistentitems.ItemContainer;
 import xyz.mizarc.persistentitems.PersistentItems;
-import xyz.mizarc.persistentitems.commands.SubCommand;
 
-import java.util.UUID;
+@CommandAlias("pi")
+public class HideCommand extends BaseCommand {
 
-public class HideCommand implements SubCommand {
-    PersistentItems plugin;
+    @Dependency
+    private PersistentItems plugin;
 
-    public HideCommand(PersistentItems plugin) {
-        this.plugin = plugin;
-    }
+    @Dependency
+    ItemContainer itemContainer;
 
-    @Override
-    public boolean execute(CommandSender sender, String[] args) {
-        if (args.length == 0) {
-            sender.sendMessage("You must specify the name of an item");
-            return false;
+    @Subcommand("hide")
+    public void onHide(CommandSender sender, String itemId, @Optional Player specifiedPlayer) {
+        // Error if console is trying to use this without specifying a player
+        if (!(sender instanceof Player) && specifiedPlayer == null) {
+            sender.sendMessage("You must specify the player argument as the console");
+            return;
+        }
 
-        } else if (args.length == 1) {
-            if (!(sender instanceof Player)) {
-                sender.sendMessage("You must be a player to run this command without the player argument");
-                return false;
+        // Error if persistent item is not active
+        if (itemContainer.getItem(itemId) == null) {
+            sender.sendMessage("Item " + sender + " does not exist");
+            return;
+        }
+
+        // Add item to specified player's inventory unless player already has it
+        if (specifiedPlayer != null) {
+            if (!removeFromInventory(specifiedPlayer.getInventory(), itemId)) {
+                return;
             }
-
-            if (!isItemExists(args[0])) {
-                sender.sendMessage("That item does not exist");
-                return false;
-            }
-
-            Player player = (Player) sender;
-            addEntry(player, args[0]);
-            removeFromInventory(player, args[0]);
-            return true;
+            addToDatabase(specifiedPlayer.getUniqueId().toString(), itemId);
+            sender.sendMessage("Item " + itemId + " has been added to " + specifiedPlayer + "'s inventory");
+            return;
         }
 
-        if (!isItemExists(args[0])) {
-            sender.sendMessage("That item does not exist");
-            return false;
-        }
-
-
-        if (Bukkit.getServer().getPlayer(args[1]) == null) {
-            sender.sendMessage("That player is not online");
-            return false;
-        }
-
+        // Remove item from own inventory unless you don't have it
         Player player = (Player) sender;
-        addEntry(player, args[0]);
-        removeFromInventory(player, args[0]);
-        return true;
-    }
-
-    private boolean isItemExists(String string) {
-        ItemContainer container = plugin.getItemContainer();
-        return container.getItem(string) != null;
-    }
-
-    private void addEntry(Player player, String itemName) {
-        DatabaseConnection database = new DatabaseConnection(plugin);
-        if (!database.isHidden(player.getUniqueId().toString(), itemName, "global")) {
-            database.addHidden(player.getUniqueId().toString(), itemName, "global");
+        if (!removeFromInventory(player.getInventory(), itemId)) {
+            return;
         }
-        database.closeConnection();
+        addToDatabase(player.getUniqueId().toString(), itemId);
+        sender.sendMessage("Item " + itemId + " has been removed from your inventory");
     }
 
-    private void removeFromInventory(Player player, String itemName) {
+    private boolean removeFromInventory(Inventory inventory, String itemName) {
         ItemContainer container = plugin.getItemContainer();
         Item item = container.getItem(itemName);
         ItemStack itemStack = item.getItemStack(plugin);
 
-        if (player.getInventory().contains(itemStack)) {
-            player.getInventory().remove(itemStack);
+        // False if the inventory doesn't have the item
+        if (!inventory.contains(itemStack)) {
+            return false;
         }
+
+        // True if the inventory has the item and remove it
+        inventory.remove(itemStack);
+        return true;
+    }
+
+    private void addToDatabase(String playerId, String itemName) {
+        DatabaseConnection database = new DatabaseConnection(plugin);
+        database.addHidden(playerId, itemName, "global");
+        database.closeConnection();
     }
 }

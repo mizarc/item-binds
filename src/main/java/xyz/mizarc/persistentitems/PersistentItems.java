@@ -1,7 +1,10 @@
 package xyz.mizarc.persistentitems;
 
+import co.aikar.commands.PaperCommandManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import xyz.mizarc.persistentitems.commands.PISubCommands.HideCommand;
+import xyz.mizarc.persistentitems.commands.PISubCommands.ShowCommand;
 import xyz.mizarc.persistentitems.commands.PersistentItemsCommand;
 import xyz.mizarc.persistentitems.listeners.PlayerLoad;
 import xyz.mizarc.persistentitems.listeners.PreventItemRemoval;
@@ -11,6 +14,7 @@ public class PersistentItems extends JavaPlugin {
     private FileConfiguration config = getConfig();
     private ItemConfigIO itemConfig;
     private ItemContainer itemContainer;
+    private PaperCommandManager commandManager;
 
     @Override
     public void onEnable() {
@@ -26,8 +30,11 @@ public class PersistentItems extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new RunLinkedCommand(this), this);
 
         // Commands
-        getCommand("persistentitems").setExecutor(new PersistentItemsCommand(this));
-        getCommand("persistentitems").setTabCompleter(new PersistentItemsCommand(this));
+        commandManager = new PaperCommandManager(this);
+        commandManager.registerDependency(ItemContainer.class, itemContainer);
+        commandManager.registerCommand(new PersistentItemsCommand());
+        commandManager.registerCommand(new ShowCommand());
+        commandManager.registerCommand(new HideCommand());
     }
 
     @Override
