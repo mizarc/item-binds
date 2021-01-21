@@ -1,42 +1,40 @@
 package xyz.mizarc.persistentitems.commands.PISubCommands;
 
+import co.aikar.commands.BaseCommand;
+import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.Dependency;
+import co.aikar.commands.annotation.Subcommand;
 import org.bukkit.command.CommandSender;
+import xyz.mizarc.persistentitems.Item;
+import xyz.mizarc.persistentitems.ItemConfigIO;
 import xyz.mizarc.persistentitems.ItemContainer;
-import xyz.mizarc.persistentitems.PersistentItems;
-import xyz.mizarc.persistentitems.commands.SubCommand;
 
-public class AddCommandCommand implements SubCommand {
-    PersistentItems plugin;
+@CommandAlias("pi")
+public class AddCommandCommand extends BaseCommand {
 
-    public AddCommandCommand(PersistentItems plugin) {
-        this.plugin = plugin;
-    }
+    @Dependency
+    ItemConfigIO itemConfig;
 
-    @Override
-    public boolean execute(CommandSender sender, String[] args) {
-        if (args.length == 0) {
-            sender.sendMessage("No arguments specified");
-            return false;
-        } else if (args.length == 1) {
-            sender.sendMessage("Command argument not specified");
-            return false;
+    @Dependency
+    ItemContainer itemContainer;
+
+    @Subcommand("addcommand")
+    public void onAddCommand(CommandSender sender, String itemId, String[] commandArray) {
+        Item item = itemConfig.getItem(itemId);
+        if (item == null) {
+            sender.sendMessage("Item " + itemId + " does not exist.");
         }
 
+        // Concatenate command to be assigned
         StringBuilder stringBuilder = new StringBuilder();
-        for (int i=2; i < args.length; i++) {
-            stringBuilder.append(args[i]);
+        for (String commandWord : commandArray) {
+            stringBuilder.append(commandWord);
         }
         String itemCommand = stringBuilder.toString();
 
-        plugin.getItemConfig().addCommand(args[0], itemCommand);
-        sender.sendMessage("Added command to '" + args[0] + "'");
-
-        ItemContainer container = plugin.getItemContainer();
-        if (container.getItem(args[0]) == null) {
-            return true;
-        }
-
-        container.getItem(args[0]).addCommand(itemCommand);
-        return true;
+        // Add assigned command to item
+        itemContainer.getItem(itemId).addCommand(itemCommand);
+        itemConfig.addCommand(itemId, itemCommand);
+        sender.sendMessage("Command has been assigned to item " + itemId);
     }
 }
