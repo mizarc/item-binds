@@ -1,48 +1,53 @@
 package xyz.mizarc.persistentitems.commands.PISubCommands;
 
+import co.aikar.commands.BaseCommand;
+import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.Dependency;
+import co.aikar.commands.annotation.Subcommand;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 import xyz.mizarc.persistentitems.Item;
 import xyz.mizarc.persistentitems.ItemConfigIO;
 import xyz.mizarc.persistentitems.ItemContainer;
-import xyz.mizarc.persistentitems.PersistentItems;
-import xyz.mizarc.persistentitems.commands.SubCommand;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActivateCommand implements SubCommand {
-    PersistentItems plugin;
+@CommandAlias("pi")
+public class ActivateCommand extends BaseCommand {
 
-    public ActivateCommand(PersistentItems plugin) {
-        this.plugin = plugin;
-    }
+    @Dependency
+    Plugin plugin;
 
-    @Override
-    public boolean execute(CommandSender sender, String[] args) {
-        if (args.length == 0) {
-            sender.sendMessage("No arguments specified");
-            return false;
-        }
+    @Dependency
+    ItemConfigIO itemConfig;
 
-        Item item = plugin.getItemConfig().getItem(args[0]);
+    @Dependency
+    ItemContainer itemContainer;
+
+    @Subcommand("activate")
+    public void onActivate(CommandSender sender, String itemId) {
+        Item item = itemConfig.getItem(itemId);
         if (item == null) {
-            return true;
+            sender.sendMessage("Item " + itemId + " does not exist");
+            return;
         }
 
-        ItemContainer itemContainer = plugin.getItemContainer();
-        ItemConfigIO itemConfig = plugin.getItemConfig();
-        itemContainer.loadItem(itemConfig.getItem(args[0]));
-        itemConfig.setActive(args[0], true);
-        giveActivatedItem(itemContainer.getItem(args[0]).getItemStack(plugin),
-                itemContainer.getItem(args[0]).getSlot());
-        return true;
+        if (!itemContainer.loadItem(item)) {
+            sender.sendMessage("Item " + itemId + " is already loaded");
+            return;
+        }
+
+        itemContainer.loadItem(itemConfig.getItem(itemId));
+        itemConfig.setActive(itemId, true);
+        giveAllItem(item.getItemStack(plugin), item.getSlot());
     }
 
-    private void giveActivatedItem(ItemStack item, Integer slot) {
+    private void giveAllItem(ItemStack item, Integer slot) {
         List<Player> players = new ArrayList<>(Bukkit.getOnlinePlayers());
         for (Player player : players) {
             Inventory inventory = player.getInventory();

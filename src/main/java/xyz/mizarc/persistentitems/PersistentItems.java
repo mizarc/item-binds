@@ -3,6 +3,7 @@ package xyz.mizarc.persistentitems;
 import co.aikar.commands.PaperCommandManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import xyz.mizarc.persistentitems.commands.PISubCommands.ActivateCommand;
 import xyz.mizarc.persistentitems.commands.PISubCommands.AddCommand;
 import xyz.mizarc.persistentitems.commands.PISubCommands.HideCommand;
 import xyz.mizarc.persistentitems.commands.PISubCommands.ShowCommand;
@@ -38,6 +39,7 @@ public class PersistentItems extends JavaPlugin {
         commandManager.registerCommand(new ShowCommand());
         commandManager.registerCommand(new HideCommand());
         commandManager.registerCommand(new AddCommand());
+        commandManager.registerCommand(new ActivateCommand());
     }
 
     @Override
