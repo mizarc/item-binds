@@ -3,10 +3,7 @@ package xyz.mizarc.persistentitems;
 import co.aikar.commands.PaperCommandManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
-import xyz.mizarc.persistentitems.commands.PISubCommands.ActivateCommand;
-import xyz.mizarc.persistentitems.commands.PISubCommands.AddCommand;
-import xyz.mizarc.persistentitems.commands.PISubCommands.HideCommand;
-import xyz.mizarc.persistentitems.commands.PISubCommands.ShowCommand;
+import xyz.mizarc.persistentitems.commands.PISubCommands.*;
 import xyz.mizarc.persistentitems.commands.PersistentItemsCommand;
 import xyz.mizarc.persistentitems.listeners.PlayerLoad;
 import xyz.mizarc.persistentitems.listeners.PreventItemRemoval;
@@ -31,15 +28,7 @@ public class PersistentItems extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PreventItemRemoval(this), this);
         getServer().getPluginManager().registerEvents(new RunLinkedCommand(this), this);
 
-        // Commands
-        commandManager = new PaperCommandManager(this);
-        commandManager.registerDependency(ItemContainer.class, itemContainer);
-        commandManager.registerDependency(ItemConfigIO.class, itemConfig);
-        commandManager.registerCommand(new PersistentItemsCommand());
-        commandManager.registerCommand(new ShowCommand());
-        commandManager.registerCommand(new HideCommand());
-        commandManager.registerCommand(new AddCommand());
-        commandManager.registerCommand(new ActivateCommand());
+        registerCommands();
     }
 
     @Override
@@ -53,5 +42,18 @@ public class PersistentItems extends JavaPlugin {
 
     public ItemContainer getItemContainer() {
         return itemContainer;
+    }
+
+    private void registerCommands() {
+        commandManager = new PaperCommandManager(this);
+        commandManager.registerDependency(ItemContainer.class, itemContainer);
+        commandManager.registerDependency(ItemConfigIO.class, itemConfig);
+        commandManager.registerCommand(new PersistentItemsCommand());
+        commandManager.registerCommand(new AddCommand());
+        commandManager.registerCommand(new RemoveCommand());
+        commandManager.registerCommand(new AddCommandCommand());
+        commandManager.registerCommand(new ActivateCommand());
+        commandManager.registerCommand(new ShowCommand());
+        commandManager.registerCommand(new HideCommand());
     }
 }
