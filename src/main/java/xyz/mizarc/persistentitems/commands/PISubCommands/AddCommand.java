@@ -14,6 +14,7 @@ public class AddCommand extends BaseCommand {
 
     @Subcommand("add")
     @CommandPermission("persistentitems.command.add")
+    @CommandCompletion("@nothing @nothing")
     @Syntax("<item> <slot>")
     public void onAdd(Player player, String itemId, int slot) {
         ItemStack heldItemStack = player.getInventory().getItemInMainHand();

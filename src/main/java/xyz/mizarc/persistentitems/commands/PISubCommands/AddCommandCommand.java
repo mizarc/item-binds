@@ -18,6 +18,7 @@ public class AddCommandCommand extends BaseCommand {
 
     @Subcommand("addcommand")
     @CommandPermission("persistentitems.command.addcommand")
+    @CommandCompletion("@pitems @nothing")
     @Syntax("<item> <command>")
     public void onAddCommand(CommandSender sender, String itemId, String[] commandArray) {
         Item item = itemConfig.getItem(itemId);

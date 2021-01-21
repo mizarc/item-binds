@@ -29,6 +29,7 @@ public class ActivateCommand extends BaseCommand {
 
     @Subcommand("activate")
     @CommandPermission("persistentitems.command.activate")
+    @CommandCompletion("@pitems")
     @Syntax("<item>")
     public void onActivate(CommandSender sender, String itemId) {
         Item item = itemConfig.getItem(itemId);

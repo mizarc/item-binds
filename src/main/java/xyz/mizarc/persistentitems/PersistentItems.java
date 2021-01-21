@@ -9,6 +9,9 @@ import xyz.mizarc.persistentitems.listeners.PlayerLoad;
 import xyz.mizarc.persistentitems.listeners.PreventItemRemoval;
 import xyz.mizarc.persistentitems.listeners.RunLinkedCommand;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class PersistentItems extends JavaPlugin {
     private FileConfiguration config = getConfig();
     private ItemConfigIO itemConfig;
@@ -28,6 +31,8 @@ public class PersistentItems extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PreventItemRemoval(this), this);
         getServer().getPluginManager().registerEvents(new RunLinkedCommand(this), this);
 
+        commandManager = new PaperCommandManager(this);
+        registerCommandCompletions();
         registerCommands();
     }
 
@@ -44,8 +49,18 @@ public class PersistentItems extends JavaPlugin {
         return itemContainer;
     }
 
+    private void registerCommandCompletions() {
+        commandManager.getCommandCompletions().registerCompletion("pitems", context -> {
+            Set<Item> items = itemContainer.getAllItems();
+            Set<String> itemNames = new HashSet<>();
+            for (Item item : items) {
+                itemNames.add(item.getId());
+            }
+            return itemNames;
+        });
+    }
+
     private void registerCommands() {
-        commandManager = new PaperCommandManager(this);
         commandManager.registerDependency(ItemContainer.class, itemContainer);
         commandManager.registerDependency(ItemConfigIO.class, itemConfig);
         commandManager.registerCommand(new PersistentItemsCommand());

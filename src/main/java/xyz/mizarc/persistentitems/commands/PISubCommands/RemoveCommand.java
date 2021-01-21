@@ -13,6 +13,7 @@ public class RemoveCommand extends BaseCommand {
 
     @Subcommand("remove")
     @CommandPermission("persistentitems.command.remove")
+    @CommandCompletion("@pitems")
     @Syntax("<item>")
     public void onRemove(CommandSender sender, String itemId) {
         if (!itemConfig.removeItem(itemId)) {
