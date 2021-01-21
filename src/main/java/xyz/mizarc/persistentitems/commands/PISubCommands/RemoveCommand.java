@@ -1,10 +1,7 @@
 package xyz.mizarc.persistentitems.commands.PISubCommands;
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.CommandAlias;
-import co.aikar.commands.annotation.CommandPermission;
-import co.aikar.commands.annotation.Dependency;
-import co.aikar.commands.annotation.Subcommand;
+import co.aikar.commands.annotation.*;
 import org.bukkit.command.CommandSender;
 import xyz.mizarc.persistentitems.ItemConfigIO;
 
@@ -16,6 +13,7 @@ public class RemoveCommand extends BaseCommand {
 
     @Subcommand("remove")
     @CommandPermission("persistentitems.command.remove")
+    @Syntax("<item>")
     public void onRemove(CommandSender sender, String itemId) {
         if (!itemConfig.removeItem(itemId)) {
             sender.sendMessage("An item of that id doesn't exist");

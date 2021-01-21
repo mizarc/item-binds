@@ -22,6 +22,7 @@ public class ShowCommand extends BaseCommand {
 
     @Subcommand("show")
     @CommandPermission("persistentitems.command.show")
+    @Syntax("<item> [player]")
     public void onShow(CommandSender sender, String itemId, @Optional Player specifiedPlayer) {
         // Error if console is trying to use this without specifying a player
         if (!(sender instanceof Player) && specifiedPlayer == null) {
