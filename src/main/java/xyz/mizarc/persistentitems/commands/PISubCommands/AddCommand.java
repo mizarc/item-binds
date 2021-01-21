@@ -1,38 +1,23 @@
 package xyz.mizarc.persistentitems.commands.PISubCommands;
 
-import org.bukkit.command.CommandSender;
+import co.aikar.commands.BaseCommand;
+import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.Dependency;
+import co.aikar.commands.annotation.Subcommand;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import xyz.mizarc.persistentitems.PersistentItems;
-import xyz.mizarc.persistentitems.commands.SubCommand;
+import xyz.mizarc.persistentitems.ItemConfigIO;
 
-public class AddCommand implements SubCommand {
-    private PersistentItems plugin;
+@CommandAlias("pi")
+public class AddCommand extends BaseCommand {
 
-    public AddCommand(PersistentItems plugin) {
-        this.plugin = plugin;
-    }
+    @Dependency
+    ItemConfigIO itemConfig;
 
-    @Override
-    public boolean execute(CommandSender sender, String[] args) {
-        if (!(sender instanceof Player)) {
-            sender.sendMessage("You must be a player to run this command");
-            return false;
-        }
-
-        if (args.length == 0) {
-            sender.sendMessage("No arguments specified");
-            return false;
-        }
-        else if (args.length == 1) {
-            sender.sendMessage("Slot argument not specified");
-            return false;
-        }
-
-        Player player = (Player) sender;
-        ItemStack heldItem = player.getInventory().getItemInMainHand();
-        plugin.getItemConfig().addItem(args[0], heldItem, Integer.parseInt(args[1]));
-        sender.sendMessage("Held item " + heldItem.getItemMeta().getDisplayName() + " has been added");
-        return true;
+    @Subcommand("add")
+    public void onAdd(Player player, String itemId, int slot) {
+        ItemStack heldItemStack = player.getInventory().getItemInMainHand();
+        itemConfig.addItem(itemId, heldItemStack, slot);
+        player.sendMessage("Held item " + heldItemStack.getItemMeta().getDisplayName() + " has been added");
     }
 }
