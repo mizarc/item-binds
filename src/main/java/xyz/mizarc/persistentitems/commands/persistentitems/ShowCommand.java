@@ -4,12 +4,14 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import xyz.mizarc.persistentitems.DatabaseConnection;
 import xyz.mizarc.persistentitems.Item;
 import xyz.mizarc.persistentitems.ItemContainer;
 import xyz.mizarc.persistentitems.PersistentItems;
+
+import java.util.Arrays;
 
 @CommandAlias("persistentitems|pitems|pi")
 public class ShowCommand extends BaseCommand {
@@ -56,12 +58,16 @@ public class ShowCommand extends BaseCommand {
         sender.sendMessage("Item " + itemId + " has been added to your inventory");
     }
 
-    private boolean addToInventory(Inventory inventory, String itemName) {
+    private boolean addToInventory(PlayerInventory inventory, String itemName) {
         Item item = itemContainer.getItem(itemName);
         ItemStack itemStack = item.getItemStack(plugin);
 
         // False if the inventory has the item
         if (inventory.contains(itemStack)) {
+            return false;
+        } else if (inventory.getItemInOffHand().equals(itemStack)) {
+            return false;
+        } else if (Arrays.asList(inventory.getArmorContents()).contains(itemStack)) {
             return false;
         }
 
