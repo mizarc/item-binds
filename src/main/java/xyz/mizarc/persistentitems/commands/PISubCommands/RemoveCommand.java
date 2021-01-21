@@ -1,29 +1,24 @@
 package xyz.mizarc.persistentitems.commands.PISubCommands;
 
+import co.aikar.commands.BaseCommand;
+import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.Dependency;
+import co.aikar.commands.annotation.Subcommand;
 import org.bukkit.command.CommandSender;
-import xyz.mizarc.persistentitems.PersistentItems;
-import xyz.mizarc.persistentitems.commands.SubCommand;
+import xyz.mizarc.persistentitems.ItemConfigIO;
 
-public class RemoveCommand implements SubCommand {
-    private PersistentItems plugin;
+@CommandAlias("pi")
+public class RemoveCommand extends BaseCommand {
 
-    public RemoveCommand(PersistentItems plugin) {
-        this.plugin = plugin;
-    }
+    @Dependency
+    ItemConfigIO itemConfig;
 
-    @Override
-    public boolean execute(CommandSender sender, String[] args) {
-        if (args.length == 0) {
-            sender.sendMessage("No arguments specified");
-            return false;
+    @Subcommand("remove")
+    public void onRemove(CommandSender sender, String itemId) {
+        if (!itemConfig.removeItem(itemId)) {
+            sender.sendMessage("An item of that id doesn't exist");
+            return;
         }
-
-        boolean removeResult = plugin.getItemConfig().removeItem(args[0]);
-        if (!removeResult) {
-            sender.sendMessage("That persistent item doesn't exist");
-            return true;
-        }
-        sender.sendMessage("Persistent item of id " + args[0] + " has been removed");
-        return true;
+        sender.sendMessage("Item " + itemId + " has been removed");
     }
 }
