@@ -2,10 +2,3 @@ name: PersistentItems
 version: 1.0
 api-version: 1.16
 main: xyz.mizarc.persistentitems.PersistentItems
-
-commands:
-  persistentitems:
-    description: Parent command of modifying persistent items
-    usage: /<command> <subcommand>
-    permission: persistentitems.main
-    aliases: [pi]

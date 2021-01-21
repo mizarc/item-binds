@@ -15,8 +15,8 @@ public class ItemContainer {
         activeItems.addAll(plugin.getItemConfig().getActiveItems());
     }
 
-    public void loadItem(Item item) {
-        activeItems.add(item);
+    public boolean loadItem(Item item) {
+        return activeItems.add(item);
     }
 
     public Item getItem(String id) {
