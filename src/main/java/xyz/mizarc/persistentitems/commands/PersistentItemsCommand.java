@@ -1,14 +1,12 @@
 package xyz.mizarc.persistentitems.commands;
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.CommandAlias;
-import co.aikar.commands.annotation.Default;
-import co.aikar.commands.annotation.Dependency;
-import co.aikar.commands.annotation.Description;
+import co.aikar.commands.annotation.*;
 import org.bukkit.command.CommandSender;
 import xyz.mizarc.persistentitems.PersistentItems;
 
 @CommandAlias("pi")
+@CommandPermission("persistentitems.command")
 @Description("The base command for all Persistent Item actions")
 public class PersistentItemsCommand extends BaseCommand {
 

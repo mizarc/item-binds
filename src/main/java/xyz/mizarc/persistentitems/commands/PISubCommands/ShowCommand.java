@@ -1,10 +1,7 @@
 package xyz.mizarc.persistentitems.commands.PISubCommands;
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.CommandAlias;
-import co.aikar.commands.annotation.Dependency;
-import co.aikar.commands.annotation.Optional;
-import co.aikar.commands.annotation.Subcommand;
+import co.aikar.commands.annotation.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -24,6 +21,7 @@ public class ShowCommand extends BaseCommand {
     ItemContainer itemContainer;
 
     @Subcommand("show")
+    @CommandPermission("persistentitems.command.show")
     public void onShow(CommandSender sender, String itemId, @Optional Player specifiedPlayer) {
         // Error if console is trying to use this without specifying a player
         if (!(sender instanceof Player) && specifiedPlayer == null) {

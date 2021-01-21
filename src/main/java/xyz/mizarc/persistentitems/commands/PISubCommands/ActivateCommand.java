@@ -2,6 +2,7 @@ package xyz.mizarc.persistentitems.commands.PISubCommands;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.CommandPermission;
 import co.aikar.commands.annotation.Dependency;
 import co.aikar.commands.annotation.Subcommand;
 import org.bukkit.Bukkit;
@@ -30,6 +31,7 @@ public class ActivateCommand extends BaseCommand {
     ItemContainer itemContainer;
 
     @Subcommand("activate")
+    @CommandPermission("persistentitems.command.activate")
     public void onActivate(CommandSender sender, String itemId) {
         Item item = itemConfig.getItem(itemId);
         if (item == null) {

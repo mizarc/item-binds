@@ -2,6 +2,7 @@ package xyz.mizarc.persistentitems.commands.PISubCommands;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.CommandPermission;
 import co.aikar.commands.annotation.Dependency;
 import co.aikar.commands.annotation.Subcommand;
 import org.bukkit.command.CommandSender;
@@ -19,6 +20,7 @@ public class AddCommandCommand extends BaseCommand {
     ItemContainer itemContainer;
 
     @Subcommand("addcommand")
+    @CommandPermission("persistentitems.command.addcommand")
     public void onAddCommand(CommandSender sender, String itemId, String[] commandArray) {
         Item item = itemConfig.getItem(itemId);
         if (item == null) {
