@@ -1,9 +1,11 @@
 package xyz.mizarc.persistentitems.listeners;
 
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityInteractEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -12,6 +14,8 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 import xyz.mizarc.persistentitems.Item;
 import xyz.mizarc.persistentitems.PersistentItems;
 
@@ -93,6 +97,18 @@ public class PreventItemRemoval implements Listener {
                 activeItemStacks.contains(event.getPlayer().getInventory().getItemInOffHand())) {
             event.setCancelled(true);
         }
+    }
+
+    @EventHandler
+    public void onBlockPlace(BlockPlaceEvent event) {
+        ItemStack itemStack = event.getItemInHand();
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        NamespacedKey key = new NamespacedKey(plugin, "persistent");
+        if (itemMeta.getPersistentDataContainer().get(key, PersistentDataType.STRING) == null) {
+            return;
+        }
+
+        event.setCancelled(true);
     }
 
     @EventHandler
