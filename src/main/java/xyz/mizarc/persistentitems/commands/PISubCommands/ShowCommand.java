@@ -11,7 +11,7 @@ import xyz.mizarc.persistentitems.Item;
 import xyz.mizarc.persistentitems.ItemContainer;
 import xyz.mizarc.persistentitems.PersistentItems;
 
-@CommandAlias("pi")
+@CommandAlias("persistentitems|pitems|pi")
 public class ShowCommand extends BaseCommand {
 
     @Dependency

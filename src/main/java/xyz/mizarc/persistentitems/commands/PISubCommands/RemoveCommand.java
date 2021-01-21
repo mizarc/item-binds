@@ -8,7 +8,7 @@ import co.aikar.commands.annotation.Subcommand;
 import org.bukkit.command.CommandSender;
 import xyz.mizarc.persistentitems.ItemConfigIO;
 
-@CommandAlias("pi")
+@CommandAlias("persistentitems|pitems|pi")
 public class RemoveCommand extends BaseCommand {
 
     @Dependency

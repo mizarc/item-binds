@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import xyz.mizarc.persistentitems.ItemConfigIO;
 
-@CommandAlias("pi")
+@CommandAlias("persistentitems|pitems|pi")
 public class AddCommand extends BaseCommand {
 
     @Dependency

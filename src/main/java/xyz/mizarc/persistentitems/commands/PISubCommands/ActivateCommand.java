@@ -18,7 +18,7 @@ import xyz.mizarc.persistentitems.ItemContainer;
 import java.util.ArrayList;
 import java.util.List;
 
-@CommandAlias("pi")
+@CommandAlias("persistentitems|pitems|pi")
 public class ActivateCommand extends BaseCommand {
 
     @Dependency
