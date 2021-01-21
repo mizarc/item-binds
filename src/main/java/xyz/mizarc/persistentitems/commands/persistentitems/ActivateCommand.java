@@ -1,4 +1,4 @@
-package xyz.mizarc.persistentitems.commands.PISubCommands;
+package xyz.mizarc.persistentitems.commands.persistentitems;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;

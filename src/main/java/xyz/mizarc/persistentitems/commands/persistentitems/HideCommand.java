@@ -1,4 +1,4 @@
-package xyz.mizarc.persistentitems.commands.PISubCommands;
+package xyz.mizarc.persistentitems.commands.persistentitems;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
@@ -12,19 +12,19 @@ import xyz.mizarc.persistentitems.ItemContainer;
 import xyz.mizarc.persistentitems.PersistentItems;
 
 @CommandAlias("persistentitems|pitems|pi")
-public class ShowCommand extends BaseCommand {
+public class HideCommand extends BaseCommand {
 
     @Dependency
-    PersistentItems plugin;
+    private PersistentItems plugin;
 
     @Dependency
     ItemContainer itemContainer;
 
-    @Subcommand("show")
-    @CommandPermission("persistentitems.command.show")
-    @CommandCompletion("@pitems @players")
+    @Subcommand("hide")
+    @CommandPermission("persistentitems.command.hide")
+    @CommandCompletion("@pitems @player")
     @Syntax("<item> [player]")
-    public void onShow(CommandSender sender, String itemId, @Optional Player specifiedPlayer) {
+    public void onHide(CommandSender sender, String itemId, @Optional Player specifiedPlayer) {
         // Error if console is trying to use this without specifying a player
         if (!(sender instanceof Player) && specifiedPlayer == null) {
             sender.sendMessage("You must specify the player argument as the console");
@@ -39,45 +39,41 @@ public class ShowCommand extends BaseCommand {
 
         // Add item to specified player's inventory unless player already has it
         if (specifiedPlayer != null) {
-            if (!addToInventory(specifiedPlayer.getInventory(), itemId)) {
+            if (!removeFromInventory(specifiedPlayer.getInventory(), itemId)) {
                 return;
             }
-            removeFromDatabase(specifiedPlayer.getUniqueId().toString(), itemId);
+            addToDatabase(specifiedPlayer.getUniqueId().toString(), itemId);
             sender.sendMessage("Item " + itemId + " has been added to " + specifiedPlayer + "'s inventory");
             return;
         }
 
-        //Add item to own inventory unless you already have it
+        // Remove item from own inventory unless you don't have it
         Player player = (Player) sender;
-        if (!addToInventory(player.getInventory(), itemId)) {
+        if (!removeFromInventory(player.getInventory(), itemId)) {
             return;
         }
-        removeFromDatabase(player.getUniqueId().toString(), itemId);
-        sender.sendMessage("Item " + itemId + " has been added to your inventory");
+        addToDatabase(player.getUniqueId().toString(), itemId);
+        sender.sendMessage("Item " + itemId + " has been removed from your inventory");
     }
 
-    private boolean addToInventory(Inventory inventory, String itemName) {
-        Item item = itemContainer.getItem(itemName);
+    private boolean removeFromInventory(Inventory inventory, String itemName) {
+        ItemContainer container = plugin.getItemContainer();
+        Item item = container.getItem(itemName);
         ItemStack itemStack = item.getItemStack(plugin);
 
-        // False if the inventory has the item
-        if (inventory.contains(itemStack)) {
+        // False if the inventory doesn't have the item
+        if (!inventory.contains(itemStack)) {
             return false;
         }
 
-        // True if the inventory doesn't have the item and attempt to add the item to the specified slot.
-        // Add to any slot if that slot is occupied
-        if (inventory.getItem(item.getSlot()) == null) {
-            inventory.setItem(item.getSlot(), itemStack);
-            return true;
-        }
-        inventory.addItem(itemStack);
+        // True if the inventory has the item and remove it
+        inventory.remove(itemStack);
         return true;
     }
 
-    private void removeFromDatabase(String playerId, String itemName) {
+    private void addToDatabase(String playerId, String itemName) {
         DatabaseConnection database = new DatabaseConnection(plugin);
-        database.removeHidden(playerId, itemName, "global");
+        database.addHidden(playerId, itemName, "global");
         database.closeConnection();
     }
 }

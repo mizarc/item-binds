@@ -3,7 +3,7 @@ package xyz.mizarc.persistentitems;
 import co.aikar.commands.PaperCommandManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
-import xyz.mizarc.persistentitems.commands.PISubCommands.*;
+import xyz.mizarc.persistentitems.commands.persistentitems.*;
 import xyz.mizarc.persistentitems.commands.PersistentItemsCommand;
 import xyz.mizarc.persistentitems.listeners.PlayerLoad;
 import xyz.mizarc.persistentitems.listeners.PreventItemRemoval;
