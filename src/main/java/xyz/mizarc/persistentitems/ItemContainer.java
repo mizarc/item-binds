@@ -1,5 +1,13 @@
 package xyz.mizarc.persistentitems;
 
+import org.bukkit.NamespacedKey;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.plugin.Plugin;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,5 +38,17 @@ public class ItemContainer {
 
     public Set<Item> getAllItems() {
         return activeItems;
+    }
+
+    public static boolean isInventoryHasPItem(Plugin plugin, PlayerInventory inventory, String itemId) {
+        NamespacedKey key = new NamespacedKey(plugin, "persistent");
+
+        for (ItemStack invSlot : inventory) {
+            ItemMeta itemMeta = invSlot.getItemMeta();
+            if (itemMeta.getPersistentDataContainer().get(key, PersistentDataType.STRING) != null) {
+                return true;
+            }
+        }
+        return false;
     }
 }
