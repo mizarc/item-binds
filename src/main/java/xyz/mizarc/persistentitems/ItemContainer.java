@@ -42,15 +42,9 @@ public class ItemContainer {
     public static List<ItemStack> getPItemsInInventory(Plugin plugin, PlayerInventory inventory, String itemId) {
         NamespacedKey key = new NamespacedKey(plugin, "persistent");
 
-        // Append inventory, armour and offhand
-        List<ItemStack> itemSlots = new ArrayList<>();
-        itemSlots.addAll(Arrays.asList(inventory.getContents()));
-        itemSlots.addAll(Arrays.asList(inventory.getArmorContents()));
-        itemSlots.add(inventory.getItemInOffHand());
-
         // Add each individual ItemStack with persistent metadata in inventory to list
         List<ItemStack> presentItems = new ArrayList<>();
-        for (ItemStack itemSlot : itemSlots) {
+        for (ItemStack itemSlot : inventory.getContents()) {
             if (itemSlot == null) {
                 continue;
             }
