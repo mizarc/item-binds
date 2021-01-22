@@ -2,6 +2,7 @@ package xyz.mizarc.persistentitems.commands.persistentitems;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -25,9 +26,9 @@ public class HideCommand extends BaseCommand {
     @CommandPermission("persistentitems.command.hide")
     @CommandCompletion("@pitems @player")
     @Syntax("<item> [player]")
-    public void onHide(CommandSender sender, String itemId, @Optional Player specifiedPlayer) {
+    public void onHide(CommandSender sender, String itemId, @Optional String specifiedPlayerName) {
         // Error if console is trying to use this without specifying a player
-        if (!(sender instanceof Player) && specifiedPlayer == null) {
+        if (!(sender instanceof Player) && specifiedPlayerName == null) {
             sender.sendMessage("You must specify the player argument as the console");
             return;
         }
@@ -39,7 +40,12 @@ public class HideCommand extends BaseCommand {
         }
 
         // Add item to specified player's inventory unless player already has it
-        if (specifiedPlayer != null) {
+        if (specifiedPlayerName != null) {
+            Player specifiedPlayer = Bukkit.getPlayer(specifiedPlayerName);
+            if (specifiedPlayer == null) {
+                sender.sendMessage("That player is not online");
+            }
+
             if (!removeFromInventory(specifiedPlayer.getInventory(), itemId)) {
                 sender.sendMessage("Item " + itemId + " is not in " + specifiedPlayer.getDisplayName() + "'s inventory");
                 return;
