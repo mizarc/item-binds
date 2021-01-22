@@ -8,8 +8,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class ItemContainer {
     private PersistentItems plugin;
@@ -43,8 +42,15 @@ public class ItemContainer {
     public static boolean isInventoryHasPItem(Plugin plugin, PlayerInventory inventory, String itemId) {
         NamespacedKey key = new NamespacedKey(plugin, "persistent");
 
-        for (ItemStack invSlot : inventory) {
-            ItemMeta itemMeta = invSlot.getItemMeta();
+        // Append inventory, armour and offhand
+        List<ItemStack> itemSlots = new ArrayList<>();
+        itemSlots.addAll(Arrays.asList(inventory.getContents()));
+        itemSlots.addAll(Arrays.asList(inventory.getArmorContents()));
+        itemSlots.add(inventory.getItemInOffHand());
+
+        // Check each individual item for persistent metadata
+        for (ItemStack itemSlot : itemSlots) {
+            ItemMeta itemMeta = itemSlot.getItemMeta();
             if (itemMeta.getPersistentDataContainer().get(key, PersistentDataType.STRING) != null) {
                 return true;
             }
