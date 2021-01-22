@@ -1,5 +1,6 @@
 package xyz.mizarc.persistentitems.listeners;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.ItemFrame;
@@ -33,30 +34,27 @@ public class PreventItemRemoval implements Listener {
     @EventHandler
     public void onItemDrop(PlayerDropItemEvent event) {
         ItemStack itemStack = event.getItemDrop().getItemStack();
-
-        Set<Item> activeItems = plugin.getItemContainer().getAllItems();
-        Set<ItemStack> activeItemStacks = new HashSet<>();
-        for (Item activeItem : activeItems) {
-            activeItemStacks.add(activeItem.getItemStack(plugin));
-        }
-
-        if (activeItemStacks.contains(itemStack)) {
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        NamespacedKey key = new NamespacedKey(plugin, "persistent");
+        if (itemMeta.getPersistentDataContainer().get(key, PersistentDataType.STRING) != null) {
             event.setCancelled(true);
         }
     }
 
     @EventHandler
     public void onMoveToInventory(InventoryClickEvent event) {
-        ItemStack itemStack = event.getCursor();
-        Inventory otherInv = event.getView().getTopInventory();
-
-        Set<Item> activeItems = plugin.getItemContainer().getAllItems();
-        Set<ItemStack> activeItemStacks = new HashSet<>();
-        for (Item activeItem : activeItems) {
-            activeItemStacks.add(activeItem.getItemStack(plugin));
+        if (event.getCursor() == null) {
+            return;
         }
 
-        if (activeItemStacks.contains(itemStack) && event.getClickedInventory() == otherInv) {
+        if (event.getClickedInventory() != event.getView().getTopInventory()) {
+            return;
+        }
+
+        ItemStack itemStack = event.getCursor();
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        NamespacedKey key = new NamespacedKey(plugin, "persistent");
+        if (itemMeta.getPersistentDataContainer().get(key, PersistentDataType.STRING) != null) {
             event.setCancelled(true);
         }
     }
@@ -64,15 +62,12 @@ public class PreventItemRemoval implements Listener {
     @EventHandler
     public void onDragToInventory(InventoryDragEvent event) {
         ItemStack itemStack = event.getOldCursor();
+        ItemMeta itemMeta = itemStack.getItemMeta();
         Inventory otherInv = event.getView().getTopInventory();
 
-        Set<Item> activeItems = plugin.getItemContainer().getAllItems();
-        Set<ItemStack> activeItemStacks = new HashSet<>();
-        for (Item activeItem : activeItems) {
-            activeItemStacks.add(activeItem.getItemStack(plugin));
-        }
-
-        if (activeItemStacks.contains(itemStack) && otherInv == event.getInventory()) {
+        NamespacedKey key = new NamespacedKey(plugin, "persistent");
+        if (itemMeta.getPersistentDataContainer().get(key, PersistentDataType.STRING) != null &&
+                otherInv == event.getInventory()) {
             event.setCancelled(true);
         }
     }
@@ -83,19 +78,25 @@ public class PreventItemRemoval implements Listener {
             return;
         }
 
-        Set<Item> activeItems = plugin.getItemContainer().getAllItems();
-        Set<ItemStack> activeItemStacks = new HashSet<>();
-        for (Item activeItem : activeItems) {
-            activeItemStacks.add(activeItem.getItemStack(plugin));
+        NamespacedKey key = new NamespacedKey(plugin, "persistent");
+        ItemStack mainHandItem = event.getPlayer().getInventory().getItemInMainHand();
+        ItemStack offHandItem = event.getPlayer().getInventory().getItemInOffHand();
+
+        // Cancel event if main hand has item
+        ItemMeta mainHandItemMeta = mainHandItem.getItemMeta();
+        if (mainHandItemMeta != null) {
+            if (mainHandItemMeta.getPersistentDataContainer().get(key, PersistentDataType.STRING) != null) {
+                event.setCancelled(true);
+            }
         }
 
-        if (activeItemStacks.contains(event.getPlayer().getInventory().getItemInMainHand())) {
-            event.setCancelled(true);
-        }
-
-        if (event.getPlayer().getInventory().getItemInMainHand().getType() == Material.AIR &&
-                activeItemStacks.contains(event.getPlayer().getInventory().getItemInOffHand())) {
-            event.setCancelled(true);
+        // Cancel event if offhand has item and main hand is empty
+        ItemMeta offHandItemMeta = offHandItem.getItemMeta();
+        if (offHandItemMeta != null) {
+            if (offHandItemMeta.getPersistentDataContainer().get(key, PersistentDataType.STRING) != null &&
+                    mainHandItem.getType() == Material.AIR) {
+                event.setCancelled(true);
+            }
         }
     }
 
@@ -115,15 +116,11 @@ public class PreventItemRemoval implements Listener {
     public void onPlayerDeath(PlayerDeathEvent event) {
         List<ItemStack> droppedItems = event.getDrops();
 
-        Set<Item> activeItems = plugin.getItemContainer().getAllItems();
-        Set<ItemStack> activeItemStacks = new HashSet<>();
-        for (Item activeItem : activeItems) {
-            activeItemStacks.add(activeItem.getItemStack(plugin));
-        }
-
-        for (ItemStack activeItemStack : activeItemStacks) {
-            if (droppedItems.contains(activeItemStack)) {
-                droppedItems.remove(activeItemStack);
+        NamespacedKey key = new NamespacedKey(plugin, "persistent");
+        for (ItemStack droppedItem : droppedItems) {
+            ItemMeta itemMeta = droppedItem.getItemMeta();
+            if (itemMeta.getPersistentDataContainer().get(key, PersistentDataType.STRING) != null) {
+                droppedItems.remove(droppedItem);
             }
         }
     }
