@@ -35,13 +35,14 @@ public class ShowCommand extends BaseCommand {
 
         // Error if persistent item is not active
         if (itemContainer.getItem(itemId) == null) {
-            sender.sendMessage("Item " + sender + " does not exist");
+            sender.sendMessage("Item " + itemId + " does not exist");
             return;
         }
 
         // Add item to specified player's inventory unless player already has it
         if (specifiedPlayer != null) {
             if (!addToInventory(specifiedPlayer.getInventory(), itemId)) {
+                sender.sendMessage("Item " + itemId + " is already in " + specifiedPlayer + "'s inventory");
                 return;
             }
             removeFromDatabase(specifiedPlayer.getUniqueId().toString(), itemId);
@@ -52,6 +53,7 @@ public class ShowCommand extends BaseCommand {
         //Add item to own inventory unless you already have it
         Player player = (Player) sender;
         if (!addToInventory(player.getInventory(), itemId)) {
+            sender.sendMessage("Item " + itemId + " is already in your inventory");
             return;
         }
         removeFromDatabase(player.getUniqueId().toString(), itemId);
