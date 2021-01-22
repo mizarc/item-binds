@@ -16,7 +16,7 @@ public class AddCmdCommand extends BaseCommand {
     @Dependency
     ItemContainer itemContainer;
 
-    @Subcommand("addcommand")
+    @Subcommand("addcmd")
     @CommandPermission("persistentitems.command.addcommand")
     @CommandCompletion("@pitems @nothing")
     @Syntax("<item> <command>")
