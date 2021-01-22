@@ -42,11 +42,11 @@ public class ShowCommand extends BaseCommand {
         // Add item to specified player's inventory unless player already has it
         if (specifiedPlayer != null) {
             if (!addToInventory(specifiedPlayer.getInventory(), itemId)) {
-                sender.sendMessage("Item " + itemId + " is already in " + specifiedPlayer + "'s inventory");
+                sender.sendMessage("Item " + itemId + " is already in " + specifiedPlayer.getDisplayName() + "'s inventory");
                 return;
             }
             removeFromDatabase(specifiedPlayer.getUniqueId().toString(), itemId);
-            sender.sendMessage("Item " + itemId + " has been added to " + specifiedPlayer + "'s inventory");
+            sender.sendMessage("Item " + itemId + " has been added to " + specifiedPlayer.getDisplayName() + "'s inventory");
             return;
         }
 

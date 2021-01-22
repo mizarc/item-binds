@@ -42,11 +42,11 @@ public class HideCommand extends BaseCommand {
         // Add item to specified player's inventory unless player already has it
         if (specifiedPlayer != null) {
             if (!removeFromInventory(specifiedPlayer.getInventory(), itemId)) {
-                sender.sendMessage("Item " + itemId + " is not in " + specifiedPlayer + "'s inventory");
+                sender.sendMessage("Item " + itemId + " is not in " + specifiedPlayer.getDisplayName() + "'s inventory");
                 return;
             }
             addToDatabase(specifiedPlayer.getUniqueId().toString(), itemId);
-            sender.sendMessage("Item " + itemId + " has been removed from " + specifiedPlayer + "'s inventory");
+            sender.sendMessage("Item " + itemId + " has been removed from " + specifiedPlayer.getDisplayName() + "'s inventory");
             return;
         }
 
