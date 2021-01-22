@@ -24,7 +24,7 @@ public class HideCommand extends BaseCommand {
 
     @Subcommand("hide")
     @CommandPermission("persistentitems.command.hide")
-    @CommandCompletion("@pitems @player")
+    @CommandCompletion("@pitems @players")
     @Syntax("<item> [player]")
     public void onHide(CommandSender sender, String itemId, @Optional String specifiedPlayerName) {
         // Error if console is trying to use this without specifying a player
