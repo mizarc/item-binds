@@ -52,10 +52,31 @@ public class ItemContainer {
             if (itemMeta == null) {
                 continue;
             }
-            if (itemMeta.getPersistentDataContainer().get(key, PersistentDataType.STRING) != null) {
+            if (itemMeta.getPersistentDataContainer().get(key, PersistentDataType.STRING).equals(itemId)) {
                 presentItems.add(itemSlot);
             }
         }
         return presentItems;
+    }
+
+    public static List<Integer> getSlotsWithPItems(Plugin plugin, PlayerInventory inventory, String itemId) {
+        NamespacedKey key = new NamespacedKey(plugin, "persistent");
+
+        // Add each individual ItemStack with persistent metadata in inventory to list
+        List<Integer> presentItemSlots = new ArrayList<>();
+        for (int i=0; i < inventory.getContents().length; i++)
+        {
+            if (inventory.getContents()[i] == null) {
+                continue;
+            }
+            ItemMeta itemMeta = inventory.getContents()[i].getItemMeta();
+            if (itemMeta == null) {
+                continue;
+            }
+            if (itemMeta.getPersistentDataContainer().get(key, PersistentDataType.STRING).equals(itemId)) {
+                presentItemSlots.add(i);
+            }
+        }
+        return presentItemSlots;
     }
 }
