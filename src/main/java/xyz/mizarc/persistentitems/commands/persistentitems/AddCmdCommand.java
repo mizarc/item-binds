@@ -20,7 +20,7 @@ public class AddCmdCommand extends BaseCommand {
     @CommandPermission("persistentitems.command.addcommand")
     @CommandCompletion("@pitems @nothing")
     @Syntax("<item> <command>")
-    public void onAddCommand(CommandSender sender, String itemId, String[] commandArray) {
+    public void onAddCmd(CommandSender sender, String itemId, String[] commandArray) {
         Item item = itemConfig.getItem(itemId);
         if (item == null) {
             sender.sendMessage("Item " + itemId + " does not exist.");
