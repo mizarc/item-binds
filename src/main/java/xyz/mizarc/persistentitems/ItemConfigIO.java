@@ -121,4 +121,18 @@ public class ItemConfigIO {
             e.printStackTrace();
         }
     }
+
+    public void removeCommand(String id, int index) {
+        File file = new File(folder, id + ".yml");
+        FileConfiguration config = YamlConfiguration.loadConfiguration(file);
+
+        List<String> commands = config.getStringList("commands");
+        commands.remove(index);
+
+        try {
+            config.save(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

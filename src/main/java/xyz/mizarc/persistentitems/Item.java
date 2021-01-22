@@ -53,6 +53,10 @@ public class Item {
         return commands;
     }
 
+    public String getCommand(int index) {
+        return commands.get(index);
+    }
+
     public void setItem(ItemStack item) {
         this.item = item;
     }
