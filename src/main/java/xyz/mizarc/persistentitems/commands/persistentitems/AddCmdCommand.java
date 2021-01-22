@@ -8,7 +8,7 @@ import xyz.mizarc.persistentitems.ItemConfigIO;
 import xyz.mizarc.persistentitems.ItemContainer;
 
 @CommandAlias("persistentitems|pitems|pi")
-public class AddCommandCommand extends BaseCommand {
+public class AddCmdCommand extends BaseCommand {
 
     @Dependency
     ItemConfigIO itemConfig;

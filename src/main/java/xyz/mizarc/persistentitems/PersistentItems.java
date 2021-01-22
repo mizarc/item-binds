@@ -66,7 +66,7 @@ public class PersistentItems extends JavaPlugin {
         commandManager.registerCommand(new PersistentItemsCommand());
         commandManager.registerCommand(new AddCommand());
         commandManager.registerCommand(new RemoveCommand());
-        commandManager.registerCommand(new AddCommandCommand());
+        commandManager.registerCommand(new AddCmdCommand());
         commandManager.registerCommand(new ActivateCommand());
         commandManager.registerCommand(new ShowCommand());
         commandManager.registerCommand(new HideCommand());
