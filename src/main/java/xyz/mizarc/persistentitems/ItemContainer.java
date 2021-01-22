@@ -78,7 +78,11 @@ public class ItemContainer {
             if (itemMeta == null) {
                 continue;
             }
-            if (itemMeta.getPersistentDataContainer().get(key, PersistentDataType.STRING).equals(itemId)) {
+            String flag = itemMeta.getPersistentDataContainer().get(key, PersistentDataType.STRING);
+            if (flag == null) {
+                continue;
+            }
+            if (flag.equals(itemId)) {
                 presentItemSlots.add(i);
             }
         }
