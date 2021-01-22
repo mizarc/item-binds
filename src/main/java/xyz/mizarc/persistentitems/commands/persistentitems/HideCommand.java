@@ -7,11 +7,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import xyz.mizarc.persistentitems.DatabaseConnection;
-import xyz.mizarc.persistentitems.Item;
 import xyz.mizarc.persistentitems.ItemContainer;
 import xyz.mizarc.persistentitems.PersistentItems;
 
-import java.util.Arrays;
+import java.util.List;
 
 @CommandAlias("persistentitems|pitems|pi")
 public class HideCommand extends BaseCommand {
@@ -60,22 +59,16 @@ public class HideCommand extends BaseCommand {
         sender.sendMessage("Item " + itemId + " has been removed from your inventory");
     }
 
-    private boolean removeFromInventory(PlayerInventory inventory, String itemName) {
-        ItemContainer container = plugin.getItemContainer();
-        Item item = container.getItem(itemName);
-        ItemStack itemStack = item.getItemStack(plugin);
-
-        // False if the inventory doesn't have the item
-        if (inventory.contains(itemStack)) {
-            return false;
-        } else if (inventory.getItemInOffHand().equals(itemStack)) {
-            return false;
-        } else if (Arrays.asList(inventory.getArmorContents()).contains(itemStack)) {
+    private boolean removeFromInventory(PlayerInventory inventory, String itemId) {
+        List<Integer> itemSlots = ItemContainer.getSlotsWithPItems(plugin, inventory, itemId);
+        if (itemSlots.isEmpty()) {
             return false;
         }
 
-        // True if the inventory has the item and remove it
-        inventory.remove(itemStack);
+        // Remove instances of persistent items from inventory
+        for (Integer slot : itemSlots) {
+            inventory.setItem(slot, null);
+        }
         return true;
     }
 

@@ -12,6 +12,7 @@ import xyz.mizarc.persistentitems.ItemContainer;
 import xyz.mizarc.persistentitems.PersistentItems;
 
 import java.util.Arrays;
+import java.util.List;
 
 @CommandAlias("persistentitems|pitems|pi")
 public class ShowCommand extends BaseCommand {
@@ -60,21 +61,16 @@ public class ShowCommand extends BaseCommand {
         sender.sendMessage("Item " + itemId + " has been added to your inventory");
     }
 
-    private boolean addToInventory(PlayerInventory inventory, String itemName) {
-        Item item = itemContainer.getItem(itemName);
-        ItemStack itemStack = item.getItemStack(plugin);
-
-        // False if the inventory has the item
-        if (inventory.contains(itemStack)) {
-            return false;
-        } else if (inventory.getItemInOffHand().equals(itemStack)) {
-            return false;
-        } else if (Arrays.asList(inventory.getArmorContents()).contains(itemStack)) {
+    private boolean addToInventory(PlayerInventory inventory, String itemId) {
+        List<ItemStack> presentItems = ItemContainer.getPItemsInInventory(plugin, inventory, itemId);
+        if (!presentItems.isEmpty()) {
             return false;
         }
 
         // True if the inventory doesn't have the item and attempt to add the item to the specified slot.
         // Add to any slot if that slot is occupied
+        Item item = itemContainer.getItem(itemId);
+        ItemStack itemStack = item.getItemStack(plugin);
         if (inventory.getItem(item.getSlot()) == null) {
             inventory.setItem(item.getSlot(), itemStack);
             return true;
