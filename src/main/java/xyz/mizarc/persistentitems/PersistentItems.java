@@ -1,6 +1,7 @@
 package xyz.mizarc.persistentitems;
 
 import co.aikar.commands.PaperCommandManager;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.mizarc.persistentitems.commands.persistentitems.*;
@@ -9,7 +10,9 @@ import xyz.mizarc.persistentitems.listeners.PlayerLoad;
 import xyz.mizarc.persistentitems.listeners.PreventItemRemoval;
 import xyz.mizarc.persistentitems.listeners.RunLinkedCommand;
 
+import java.io.IOException;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 public class PersistentItems extends JavaPlugin {
@@ -22,6 +25,8 @@ public class PersistentItems extends JavaPlugin {
     public void onEnable() {
         super.onEnable();
 
+        transferResources();
+
         itemConfig = new ItemConfigIO(this);
         itemContainer = new ItemContainer(this);
         itemContainer.loadActiveItems();
@@ -32,6 +37,7 @@ public class PersistentItems extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new RunLinkedCommand(this), this);
 
         commandManager = new PaperCommandManager(this);
+        registerLocales();
         registerCommandCompletions();
         registerCommands();
     }
@@ -70,5 +76,17 @@ public class PersistentItems extends JavaPlugin {
         commandManager.registerCommand(new ActivateCommand());
         commandManager.registerCommand(new ShowCommand());
         commandManager.registerCommand(new HideCommand());
+    }
+
+    private void registerLocales() {
+        try {
+            commandManager.getLocales().loadYamlLanguageFile("lang/en_US.yml", Locale.ENGLISH);
+        } catch (IOException | InvalidConfigurationException error) {
+            error.printStackTrace();
+        }
+    }
+
+    private void transferResources() {
+        saveResource("lang/en_US.yml", false);
     }
 }
