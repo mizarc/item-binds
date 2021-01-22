@@ -5,6 +5,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
 
@@ -52,7 +53,11 @@ public class ItemContainer {
             if (itemMeta == null) {
                 continue;
             }
-            if (itemMeta.getPersistentDataContainer().get(key, PersistentDataType.STRING).equals(itemId)) {
+            String flag = itemMeta.getPersistentDataContainer().get(key, PersistentDataType.STRING);
+            if (flag == null) {
+                continue;
+            }
+            if (flag.equals(itemId)) {
                 presentItems.add(itemSlot);
             }
         }
