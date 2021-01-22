@@ -39,7 +39,7 @@ public class ItemContainer {
         return activeItems;
     }
 
-    public static boolean isInventoryHasPItem(Plugin plugin, PlayerInventory inventory, String itemId) {
+    public static List<ItemStack> getPItemsInInventory(Plugin plugin, PlayerInventory inventory, String itemId) {
         NamespacedKey key = new NamespacedKey(plugin, "persistent");
 
         // Append inventory, armour and offhand
@@ -48,13 +48,20 @@ public class ItemContainer {
         itemSlots.addAll(Arrays.asList(inventory.getArmorContents()));
         itemSlots.add(inventory.getItemInOffHand());
 
-        // Check each individual item for persistent metadata
+        // Add each individual ItemStack with persistent metadata in inventory to list
+        List<ItemStack> presentItems = new ArrayList<>();
         for (ItemStack itemSlot : itemSlots) {
+            if (itemSlot == null) {
+                continue;
+            }
             ItemMeta itemMeta = itemSlot.getItemMeta();
+            if (itemMeta == null) {
+                continue;
+            }
             if (itemMeta.getPersistentDataContainer().get(key, PersistentDataType.STRING) != null) {
-                return true;
+                presentItems.add(itemSlot);
             }
         }
-        return false;
+        return presentItems;
     }
 }
