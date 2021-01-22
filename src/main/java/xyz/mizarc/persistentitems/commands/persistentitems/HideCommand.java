@@ -29,10 +29,11 @@ public class HideCommand extends BaseCommand {
         // Forward command to 'others' version if player argument is specified
         if (specifiedPlayerName != null) {
             onHideOthers(sender, itemId, specifiedPlayerName);
+            return;
         }
 
         // Error if console is trying to use this without specifying a player
-        if (!(sender instanceof Player) && specifiedPlayerName == null) {
+        if (!(sender instanceof Player)) {
             sender.sendMessage("You must specify the player argument as the console");
             return;
         }
@@ -66,7 +67,7 @@ public class HideCommand extends BaseCommand {
             return;
         }
 
-        // Add item to specified player's inventory unless player already has it
+        // Remove item from specified player's inventory unless player doesn't have it
         if (!removeFromInventory(specifiedPlayer.getInventory(), itemId)) {
             sender.sendMessage("Item " + itemId + " is not in " + specifiedPlayer.getDisplayName() + "'s inventory");
             return;

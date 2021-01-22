@@ -1,6 +1,8 @@
 package xyz.mizarc.persistentitems.commands.persistentitems;
 
 import co.aikar.commands.BaseCommand;
+import co.aikar.commands.ConditionFailedException;
+import co.aikar.commands.MessageKeys;
 import co.aikar.commands.annotation.*;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -29,8 +31,14 @@ public class ShowCommand extends BaseCommand {
     @CommandCompletion("@pitems @players")
     @Syntax("<item> [player]")
     public void onShow(CommandSender sender, String itemId, @Optional String specifiedPlayerName) {
+        // Forward command to 'others' version if player argument is specified
+        if (specifiedPlayerName != null) {
+            onShowOthers(sender, itemId, specifiedPlayerName);
+            return;
+        }
+
         // Error if console is trying to use this without specifying a player
-        if (!(sender instanceof Player) && specifiedPlayerName == null) {
+        if (!(sender instanceof Player)) {
             sender.sendMessage("You must specify the player argument as the console");
             return;
         }
@@ -38,22 +46,6 @@ public class ShowCommand extends BaseCommand {
         // Error if persistent item is not active
         if (itemContainer.getItem(itemId) == null) {
             sender.sendMessage("Item " + itemId + " does not exist");
-            return;
-        }
-
-        // Add item to specified player's inventory unless player already has it
-        if (specifiedPlayerName != null) {
-            Player specifiedPlayer = Bukkit.getPlayer(specifiedPlayerName);
-            if (specifiedPlayer == null) {
-                sender.sendMessage("That player is not online");
-            }
-
-            if (!addToInventory(specifiedPlayer.getInventory(), itemId)) {
-                sender.sendMessage("Item " + itemId + " is already in " + specifiedPlayer.getDisplayName() + "'s inventory");
-                return;
-            }
-            removeFromDatabase(specifiedPlayer.getUniqueId().toString(), itemId);
-            sender.sendMessage("Item " + itemId + " has been added to " + specifiedPlayer.getDisplayName() + "'s inventory");
             return;
         }
 
@@ -65,6 +57,29 @@ public class ShowCommand extends BaseCommand {
         }
         removeFromDatabase(player.getUniqueId().toString(), itemId);
         sender.sendMessage("Item " + itemId + " has been added to your inventory");
+    }
+
+    private void onShowOthers(CommandSender sender, String itemId, String specifiedPlayerName) {
+        // Error if player doesn't have the 'others' permission
+        if (!sender.hasPermission("persistentitems.command.show.others")) {
+            throw new ConditionFailedException(MessageKeys.PERMISSION_DENIED_PARAMETER);
+        }
+
+        // Error if specified player isn't online
+        Player specifiedPlayer = Bukkit.getPlayer(specifiedPlayerName);
+        if (specifiedPlayer == null) {
+            sender.sendMessage("That player is not online");
+        }
+
+        // Add item to specified player's inventory unless player already has it
+        if (!addToInventory(specifiedPlayer.getInventory(), itemId)) {
+            sender.sendMessage(
+                    "Item " + itemId + " is already in " + specifiedPlayer.getDisplayName() + "'s inventory");
+            return;
+        }
+        removeFromDatabase(specifiedPlayer.getUniqueId().toString(), itemId);
+        sender.sendMessage(
+                "Item " + itemId + " has been added to " + specifiedPlayer.getDisplayName() + "'s inventory");
     }
 
     private boolean addToInventory(PlayerInventory inventory, String itemId) {
