@@ -1,11 +1,10 @@
 package xyz.mizarc.persistentitems.commands.persistentitems;
 
-import co.aikar.commands.BaseCommand;
+import co.aikar.commands.*;
 import co.aikar.commands.annotation.*;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import xyz.mizarc.persistentitems.DatabaseConnection;
 import xyz.mizarc.persistentitems.ItemContainer;
@@ -27,6 +26,11 @@ public class HideCommand extends BaseCommand {
     @CommandCompletion("@pitems @players")
     @Syntax("<item> [player]")
     public void onHide(CommandSender sender, String itemId, @Optional String specifiedPlayerName) {
+        // Forward command to 'others' version if player argument is specified
+        if (specifiedPlayerName != null) {
+            onHideOthers(sender, itemId, specifiedPlayerName);
+        }
+
         // Error if console is trying to use this without specifying a player
         if (!(sender instanceof Player) && specifiedPlayerName == null) {
             sender.sendMessage("You must specify the player argument as the console");
@@ -39,22 +43,6 @@ public class HideCommand extends BaseCommand {
             return;
         }
 
-        // Add item to specified player's inventory unless player already has it
-        if (specifiedPlayerName != null) {
-            Player specifiedPlayer = Bukkit.getPlayer(specifiedPlayerName);
-            if (specifiedPlayer == null) {
-                sender.sendMessage("That player is not online");
-            }
-
-            if (!removeFromInventory(specifiedPlayer.getInventory(), itemId)) {
-                sender.sendMessage("Item " + itemId + " is not in " + specifiedPlayer.getDisplayName() + "'s inventory");
-                return;
-            }
-            addToDatabase(specifiedPlayer.getUniqueId().toString(), itemId);
-            sender.sendMessage("Item " + itemId + " has been removed from " + specifiedPlayer.getDisplayName() + "'s inventory");
-            return;
-        }
-
         // Remove item from own inventory unless you don't have it
         Player player = (Player) sender;
         if (!removeFromInventory(player.getInventory(), itemId)) {
@@ -63,6 +51,28 @@ public class HideCommand extends BaseCommand {
         }
         addToDatabase(player.getUniqueId().toString(), itemId);
         sender.sendMessage("Item " + itemId + " has been removed from your inventory");
+    }
+
+    private void onHideOthers(CommandSender sender, String itemId, String specifiedPlayerName) {
+        // Error if player doesn't have the 'others' permission
+        if (!sender.hasPermission("persistentitems.command.hide.others")) {
+            throw new ConditionFailedException(MessageKeys.PERMISSION_DENIED_PARAMETER);
+        }
+
+        // Error if specified player isn't online
+        Player specifiedPlayer = Bukkit.getPlayer(specifiedPlayerName);
+        if (specifiedPlayer == null) {
+            sender.sendMessage("That player is not online");
+            return;
+        }
+
+        // Add item to specified player's inventory unless player already has it
+        if (!removeFromInventory(specifiedPlayer.getInventory(), itemId)) {
+            sender.sendMessage("Item " + itemId + " is not in " + specifiedPlayer.getDisplayName() + "'s inventory");
+            return;
+        }
+        addToDatabase(specifiedPlayer.getUniqueId().toString(), itemId);
+        sender.sendMessage("Item " + itemId + " has been removed from " + specifiedPlayer.getDisplayName() + "'s inventory");
     }
 
     private boolean removeFromInventory(PlayerInventory inventory, String itemId) {
