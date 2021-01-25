@@ -47,16 +47,35 @@ public class PreventItemRemoval implements Listener {
             return;
         }
 
-        if (event.getClickedInventory() != event.getView().getTopInventory()) {
-            return;
-        }
-
         ItemStack itemStack = event.getCursor();
         ItemMeta itemMeta = itemStack.getItemMeta();
         NamespacedKey key = new NamespacedKey(plugin, "persistent");
+
+        // Check if item in bottom slot is being shift clicked
+        if (event.getClickedInventory() != event.getView().getTopInventory()) {
+            if (itemMeta.getPersistentDataContainer().get(key, PersistentDataType.STRING) != null &&
+                    event.getClick().isShiftClick()) {
+                event.setCancelled(true);
+            }
+        }
+
+        // Check if item is trying to be placed in top slot
         if (itemMeta.getPersistentDataContainer().get(key, PersistentDataType.STRING) != null) {
             event.setCancelled(true);
         }
+    }
+
+    @EventHandler
+    public void onShiftClick(InventoryClickEvent event) {
+        if (event.getCursor() == null) {
+            return;
+        }
+
+        if (event.getClickedInventory() == event.getView().getTopInventory()) {
+            return;
+        }
+
+
     }
 
     @EventHandler
