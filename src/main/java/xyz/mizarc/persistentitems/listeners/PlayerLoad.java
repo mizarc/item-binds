@@ -1,11 +1,15 @@
 package xyz.mizarc.persistentitems.listeners;
 
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 import xyz.mizarc.persistentitems.DatabaseConnection;
 import xyz.mizarc.persistentitems.Item;
 import xyz.mizarc.persistentitems.PersistentItems;
@@ -33,19 +37,34 @@ public class PlayerLoad implements Listener {
         Inventory inventory = player.getInventory();
         Set<Item> activeItems = plugin.getItemContainer().getAllItems();
 
+        // Loop through all active items
         for (Item activeItem : activeItems) {
-            if (inventory.contains(activeItem.getItemStack(plugin))) {
-                break;
-            }
-
             DatabaseConnection database = new DatabaseConnection(plugin);
+
+            // Cancel if item is on player's ignore list
             if (database.isHidden(player.getUniqueId().toString(), activeItem.getId(), "global")) {
                 database.closeConnection();
                 break;
             }
 
+            // Scan inventory for persistent item
+            String itemId = activeItem.getId();
+            for (ItemStack itemStack : inventory) {
+                ItemMeta itemMeta = itemStack.getItemMeta();
+                NamespacedKey key = new NamespacedKey(plugin, "persistent");
+
+                // Go to next item if this item doesn't have metadata
+                if (itemMeta.getPersistentDataContainer().get(key, PersistentDataType.STRING) == null) {
+                    continue;
+                }
+
+                // Go to next item if player already has item
+                if (itemMeta.getPersistentDataContainer().get(key, PersistentDataType.STRING).equals(itemId)) {
+                    break;
+                }
+            }
+
             giveItem(player, activeItem);
-            database.closeConnection();
         }
     }
 
