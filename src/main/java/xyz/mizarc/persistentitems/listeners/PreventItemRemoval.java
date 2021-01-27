@@ -48,20 +48,16 @@ public class PreventItemRemoval implements Listener {
             return;
         }
 
-        ItemStack itemStack = event.getCursor();
-        ItemMeta itemMeta = itemStack.getItemMeta();
+        // Cancel if item is in bottom
         NamespacedKey key = new NamespacedKey(plugin, "persistent");
-
-        if (itemMeta == null) {
+        if (event.getClickedInventory() == event.getView().getBottomInventory()) {
             return;
         }
 
-        // Check if item in bottom slot is being shift clicked
-        if (event.getClickedInventory() == event.getView().getBottomInventory()) {
-            if (itemMeta.getPersistentDataContainer().get(key, PersistentDataType.STRING) != null &&
-                    event.getClick().isShiftClick()) {
-                event.setCancelled(true);
-            }
+        // Cancel if item meta doesn't exist
+        ItemStack itemStack = event.getCursor();
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        if (itemMeta == null) {
             return;
         }
 
@@ -73,12 +69,26 @@ public class PreventItemRemoval implements Listener {
 
     @EventHandler
     public void onShiftClick(InventoryClickEvent event) {
-        if (event.getCursor() == null) {
+        // Cancel if event isn't a shift click
+        if (!event.getClick().isShiftClick()) {
             return;
         }
 
+        // Cancel if inventory is top inventory
         if (event.getClickedInventory() == event.getView().getTopInventory()) {
             return;
+        }
+
+        // Cancel if no item in slot
+        ItemStack itemStack = event.getCurrentItem();
+        if (itemStack == null) {
+            return;
+        }
+
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        NamespacedKey key = new NamespacedKey(plugin, "persistent");
+        if (itemMeta.getPersistentDataContainer().get(key, PersistentDataType.STRING) != null) {
+            event.setCancelled(true);
         }
     }
 
