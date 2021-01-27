@@ -1,6 +1,6 @@
 acf-core:
-  permission_denied: "I'm sorry, but you do not have permission to perform this command."
-  permission_denied_parameter: "I'm sorry, but you do not have permission to perform this command."
+  permission_denied: "You do not have permission to use that command."
+  permission_denied_parameter: "You do not have permission to use that argument."
   error_generic_logged: "An error occurred. This problem has been logged. Sorry for the inconvenience."
   unknown_command: "Unknown Command, please type <c2>/help</c2>"
   invalid_syntax: "Usage: <c2>{command}</c2> <c3>{syntax}</c3>"

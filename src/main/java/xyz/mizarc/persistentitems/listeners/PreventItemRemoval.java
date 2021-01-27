@@ -51,6 +51,10 @@ public class PreventItemRemoval implements Listener {
         ItemMeta itemMeta = itemStack.getItemMeta();
         NamespacedKey key = new NamespacedKey(plugin, "persistent");
 
+        if (itemMeta == null) {
+            return;
+        }
+
         // Check if item in bottom slot is being shift clicked
         if (event.getClickedInventory() != event.getView().getTopInventory()) {
             if (itemMeta.getPersistentDataContainer().get(key, PersistentDataType.STRING) != null &&
@@ -74,8 +78,6 @@ public class PreventItemRemoval implements Listener {
         if (event.getClickedInventory() == event.getView().getTopInventory()) {
             return;
         }
-
-
     }
 
     @EventHandler
