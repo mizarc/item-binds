@@ -1,5 +1,6 @@
 package xyz.mizarc.persistentitems.listeners;
 
+import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -49,26 +50,8 @@ public class PlayerLoad implements Listener {
 
             // Scan inventory for persistent item
             String itemId = activeItem.getId();
-            for (ItemStack itemStack : inventory) {
-                if (itemStack == null) {
-                    continue;
-                }
-
-                ItemMeta itemMeta = itemStack.getItemMeta();
-                if (itemMeta == null) {
-                    continue;
-                }
-
-                // Go to next item if this item doesn't have metadata
-                NamespacedKey key = new NamespacedKey(plugin, "persistent");
-                if (itemMeta.getPersistentDataContainer().get(key, PersistentDataType.STRING) == null) {
-                    continue;
-                }
-
-                // Go to next item if player already has item
-                if (itemMeta.getPersistentDataContainer().get(key, PersistentDataType.STRING).equals(itemId)) {
-                    break;
-                }
+            if (!checkInventoryForItem(inventory, itemId)) {
+                break;
             }
 
             giveItem(player, activeItem);
@@ -83,5 +66,30 @@ public class PlayerLoad implements Listener {
             return;
         }
         inventory.addItem(item.getItemStack(plugin));
+    }
+
+    private boolean checkInventoryForItem(Inventory inventory, String itemId) {
+        for (ItemStack itemStack : inventory) {
+            if (itemStack == null) {
+                continue;
+            }
+
+            ItemMeta itemMeta = itemStack.getItemMeta();
+            if (itemMeta == null) {
+                continue;
+            }
+
+            // Go to next item if this item doesn't have metadata
+            NamespacedKey key = new NamespacedKey(plugin, "persistent");
+            if (itemMeta.getPersistentDataContainer().get(key, PersistentDataType.STRING) == null) {
+                continue;
+            }
+
+            // Go to next item if player already has item
+            if (itemMeta.getPersistentDataContainer().get(key, PersistentDataType.STRING).equals(itemId)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
