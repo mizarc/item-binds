@@ -35,6 +35,7 @@ public class PreventItemRemoval implements Listener {
     public void onItemDrop(PlayerDropItemEvent event) {
         ItemStack itemStack = event.getItemDrop().getItemStack();
         ItemMeta itemMeta = itemStack.getItemMeta();
+
         NamespacedKey key = new NamespacedKey(plugin, "persistent");
         if (itemMeta.getPersistentDataContainer().get(key, PersistentDataType.STRING) != null) {
             event.setCancelled(true);
@@ -56,11 +57,12 @@ public class PreventItemRemoval implements Listener {
         }
 
         // Check if item in bottom slot is being shift clicked
-        if (event.getClickedInventory() != event.getView().getTopInventory()) {
+        if (event.getClickedInventory() == event.getView().getBottomInventory()) {
             if (itemMeta.getPersistentDataContainer().get(key, PersistentDataType.STRING) != null &&
                     event.getClick().isShiftClick()) {
                 event.setCancelled(true);
             }
+            return;
         }
 
         // Check if item is trying to be placed in top slot
