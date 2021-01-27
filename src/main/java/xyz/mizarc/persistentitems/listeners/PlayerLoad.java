@@ -50,10 +50,17 @@ public class PlayerLoad implements Listener {
             // Scan inventory for persistent item
             String itemId = activeItem.getId();
             for (ItemStack itemStack : inventory) {
+                if (itemStack == null) {
+                    continue;
+                }
+
                 ItemMeta itemMeta = itemStack.getItemMeta();
-                NamespacedKey key = new NamespacedKey(plugin, "persistent");
+                if (itemMeta == null) {
+                    continue;
+                }
 
                 // Go to next item if this item doesn't have metadata
+                NamespacedKey key = new NamespacedKey(plugin, "persistent");
                 if (itemMeta.getPersistentDataContainer().get(key, PersistentDataType.STRING) == null) {
                     continue;
                 }
