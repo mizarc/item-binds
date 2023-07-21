@@ -61,11 +61,11 @@ class ShowCommand: PersistentItemsCommand() {
 
         // Add item to specified player's inventory unless player already has it
         if (!addToInventory(player.inventory, item.id)) {
-            sender.sendMessage("Item " + item.id + " is already in " + player.displayName() + "'s inventory")
+            sender.sendMessage("Item ${item.name} is already in ${player.displayName()}'s inventory")
             return;
         }
         playerItemsRepo.remove(player, item)
-        sender.sendMessage("Item ${item.id} has been added to ${player.displayName()}'s inventory")
+        sender.sendMessage("Item ${item.name} has been added to ${player.displayName()}'s inventory")
     }
 
     private fun addToInventory(inventory: PlayerInventory, itemId: UUID): Boolean {

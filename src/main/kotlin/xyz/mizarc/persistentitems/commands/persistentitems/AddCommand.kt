@@ -1,6 +1,7 @@
 package xyz.mizarc.persistentitems.commands.persistentitems
 
 import co.aikar.commands.annotation.*
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import xyz.mizarc.persistentitems.Item
 import xyz.mizarc.persistentitems.commands.PersistentItemsCommand
@@ -14,6 +15,5 @@ class AddCommand : PersistentItemsCommand() {
     fun onAdd(player: Player, name: String, slot: Int) {
         val heldItemStack = player.inventory.itemInMainHand
         itemRepo.add(Item(name, heldItemStack, slot))
-        player.sendMessage("Held item ${heldItemStack.itemMeta.displayName()} has been added.")
     }
 }

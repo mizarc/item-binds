@@ -1,5 +1,6 @@
 package xyz.mizarc.persistentitems.listeners
 
+import org.bukkit.Bukkit
 import org.bukkit.NamespacedKey
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -34,7 +35,7 @@ class PlayerLoadListener(private val playerItemsRepository: PlayerItemsRepositor
             if (playerItemsRepository.isPlayerHiddenItem(player, activeItem)) break
 
             // Scan inventory for persistent item
-            if (!checkInventoryForItem(inventory, activeItem)) {
+            if (checkInventoryForItem(inventory, activeItem)) {
                 break
             }
             giveItem(player, activeItem)
@@ -48,6 +49,7 @@ class PlayerLoadListener(private val playerItemsRepository: PlayerItemsRepositor
             return
         }
         inventory.addItem(item.itemStack)
+        Bukkit.getLogger().info("what ${item.itemStack}")
     }
 
     private fun checkInventoryForItem(inventory: Inventory, item: Item): Boolean {
@@ -55,9 +57,11 @@ class PlayerLoadListener(private val playerItemsRepository: PlayerItemsRepositor
             if (itemStack == null) {
                 continue
             }
+
+            // Go to next item if this item doesn't have metadata (probably air)
             val itemMeta = itemStack.itemMeta ?: continue
 
-            // Go to next item if this item doesn't have metadata
+            // Skip item if it doesn't have the special key
             val key = NamespacedKey("persistentitems", "item")
             if (itemMeta.persistentDataContainer.get(key, PersistentDataType.STRING) == null) {
                 continue
@@ -65,9 +69,9 @@ class PlayerLoadListener(private val playerItemsRepository: PlayerItemsRepositor
 
             // Go to next item if player already has item
             if (itemMeta.persistentDataContainer.get(key, PersistentDataType.STRING) == item.id.toString()) {
-                return false
+                return true
             }
         }
-        return true
+        return false
     }
 }
