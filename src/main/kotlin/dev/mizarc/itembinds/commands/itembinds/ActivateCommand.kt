@@ -1,13 +1,13 @@
-package dev.mizarc.itembinds.commands.persistentitems;
+package dev.mizarc.itembinds.commands.itembinds;
 
 import co.aikar.commands.annotation.*;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.inventory.ItemStack;
-import dev.mizarc.itembinds.commands.PersistentItemsCommand
+import dev.mizarc.itembinds.commands.ItemBindsCommand
 
 @CommandAlias("persistentitems|pitems|pi")
-class ActivateCommand: PersistentItemsCommand() {
+class ActivateCommand: ItemBindsCommand() {
     @Subcommand("activate")
     @CommandPermission("persistentitems.command.activate")
     @CommandCompletion("@pitems")

@@ -10,7 +10,7 @@ import dev.mizarc.itembinds.PlayerItemsRepository
 @CommandAlias("persistentitems|pitems|pi")
 @CommandPermission("persistentitems.command")
 @Description("The base command for all Persistent Item actions")
-open class PersistentItemsCommand: BaseCommand() {
+open class ItemBindsCommand: BaseCommand() {
     @Dependency protected lateinit var itemRepo: ItemRepository
     @Dependency protected lateinit var playerItemsRepo: PlayerItemsRepository
     @Dependency protected lateinit var persistencyService: PersistencyService

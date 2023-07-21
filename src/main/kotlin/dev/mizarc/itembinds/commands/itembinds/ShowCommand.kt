@@ -1,4 +1,4 @@
-package dev.mizarc.itembinds.commands.persistentitems;
+package dev.mizarc.itembinds.commands.itembinds;
 
 import co.aikar.commands.ConditionFailedException;
 import co.aikar.commands.MessageKeys;
@@ -9,11 +9,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import dev.mizarc.itembinds.Item;
-import dev.mizarc.itembinds.commands.PersistentItemsCommand;
+import dev.mizarc.itembinds.commands.ItemBindsCommand;
 import java.util.*
 
 @CommandAlias("persistentitems|pitems|pi")
-class ShowCommand: PersistentItemsCommand() {
+class ShowCommand: ItemBindsCommand() {
 
     @Subcommand("show")
     @CommandPermission("persistentitems.command.show")

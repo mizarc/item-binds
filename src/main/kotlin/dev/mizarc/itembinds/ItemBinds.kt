@@ -2,8 +2,8 @@ package dev.mizarc.itembinds;
 
 import co.aikar.commands.PaperCommandManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import dev.mizarc.itembinds.commands.PersistentItemsCommand;
-import dev.mizarc.itembinds.commands.persistentitems.*
+import dev.mizarc.itembinds.commands.ItemBindsCommand;
+import dev.mizarc.itembinds.commands.itembinds.*
 import dev.mizarc.itembinds.listeners.ItemRemovalListener
 import dev.mizarc.itembinds.listeners.ItemUseListener;
 import dev.mizarc.itembinds.listeners.PlayerLoadListener
@@ -70,7 +70,7 @@ class ItemBinds: JavaPlugin() {
     }
 
     private fun registerCommands() {
-        commandManager.registerCommand(PersistentItemsCommand())
+        commandManager.registerCommand(ItemBindsCommand())
         commandManager.registerCommand(AddCommand())
         commandManager.registerCommand(RemoveCommand())
         commandManager.registerCommand(AddCmdCommand())

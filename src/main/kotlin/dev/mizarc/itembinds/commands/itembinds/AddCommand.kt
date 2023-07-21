@@ -1,12 +1,12 @@
-package dev.mizarc.itembinds.commands.persistentitems
+package dev.mizarc.itembinds.commands.itembinds
 
 import co.aikar.commands.annotation.*
 import org.bukkit.entity.Player
 import dev.mizarc.itembinds.Item
-import dev.mizarc.itembinds.commands.PersistentItemsCommand
+import dev.mizarc.itembinds.commands.ItemBindsCommand
 
 @CommandAlias("persistentitems|pitems|pi")
-class AddCommand : PersistentItemsCommand() {
+class AddCommand : ItemBindsCommand() {
     @Subcommand("add")
     @CommandPermission("persistentitems.command.add")
     @CommandCompletion("@nothing @nothing")

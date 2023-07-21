@@ -1,4 +1,4 @@
-package dev.mizarc.itembinds.commands.persistentitems
+package dev.mizarc.itembinds.commands.itembinds
 
 import co.aikar.commands.ConditionFailedException
 import co.aikar.commands.MessageKeys
@@ -8,11 +8,11 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.inventory.PlayerInventory
 import dev.mizarc.itembinds.Item
-import dev.mizarc.itembinds.commands.PersistentItemsCommand
+import dev.mizarc.itembinds.commands.ItemBindsCommand
 import java.util.*
 
 @CommandAlias("persistentitems|pitems|pi")
-class HideCommand : PersistentItemsCommand() {
+class HideCommand : ItemBindsCommand() {
 
     @Subcommand("hide")
     @CommandPermission("persistentitems.command.hide")

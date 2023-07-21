@@ -1,11 +1,11 @@
-package dev.mizarc.itembinds.commands.persistentitems
+package dev.mizarc.itembinds.commands.itembinds
 
 import co.aikar.commands.annotation.*
 import org.bukkit.command.CommandSender
-import dev.mizarc.itembinds.commands.PersistentItemsCommand
+import dev.mizarc.itembinds.commands.ItemBindsCommand
 
 @CommandAlias("persistentitems|pitems|pi")
-class RemoveCommand : PersistentItemsCommand() {
+class RemoveCommand : ItemBindsCommand() {
     @Subcommand("remove")
     @CommandPermission("persistentitems.command.remove")
     @CommandCompletion("@pitems")
