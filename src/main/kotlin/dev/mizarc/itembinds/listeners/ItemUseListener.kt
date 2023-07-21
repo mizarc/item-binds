@@ -7,6 +7,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.persistence.PersistentDataType;
 import dev.mizarc.itembinds.ItemRepository
+import dev.mizarc.itembinds.utils.getStringMeta
 import java.util.*
 
 class ItemUseListener(private val itemRepo: ItemRepository) : Listener {
@@ -16,12 +17,10 @@ class ItemUseListener(private val itemRepo: ItemRepository) : Listener {
         if (event.item == null)  return
 
         val itemStack = event.item?: return
-        val itemMeta = itemStack.itemMeta
-        val key = NamespacedKey("persistentitems", "item")
-        if (!itemMeta.persistentDataContainer.has(key, PersistentDataType.STRING)) {
+        if (itemStack.getStringMeta("item") == null) {
             return
         }
-        val id = itemMeta.persistentDataContainer.get(key, PersistentDataType.STRING)
+        val id = itemStack.getStringMeta("item")
         val item = itemRepo.getById(UUID.fromString(id)) ?: return
         for (command in item.commands) {
             event.player.performCommand(command)

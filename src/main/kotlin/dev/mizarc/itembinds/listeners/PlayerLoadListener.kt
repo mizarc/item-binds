@@ -12,6 +12,7 @@ import org.bukkit.persistence.PersistentDataType
 import dev.mizarc.itembinds.Item
 import dev.mizarc.itembinds.PersistencyService
 import dev.mizarc.itembinds.PlayerItemsRepository
+import dev.mizarc.itembinds.utils.getStringMeta
 
 class PlayerLoadListener(private val playerItemsRepository: PlayerItemsRepository,
                          private val persistencyService: PersistencyService
@@ -50,7 +51,6 @@ class PlayerLoadListener(private val playerItemsRepository: PlayerItemsRepositor
             return
         }
         inventory.addItem(item.itemStack)
-        Bukkit.getLogger().info("what ${item.itemStack}")
     }
 
     private fun checkInventoryForItem(inventory: Inventory, item: Item): Boolean {
@@ -63,13 +63,13 @@ class PlayerLoadListener(private val playerItemsRepository: PlayerItemsRepositor
             val itemMeta = itemStack.itemMeta ?: continue
 
             // Skip item if it doesn't have the special key
-            val key = NamespacedKey("persistentitems", "item")
-            if (itemMeta.persistentDataContainer.get(key, PersistentDataType.STRING) == null) {
+
+            if (itemStack.getStringMeta("item") == null) {
                 continue
             }
 
             // Go to next item if player already has item
-            if (itemMeta.persistentDataContainer.get(key, PersistentDataType.STRING) == item.id.toString()) {
+            if (itemStack.getStringMeta("item") == item.id.toString()) {
                 return true
             }
         }

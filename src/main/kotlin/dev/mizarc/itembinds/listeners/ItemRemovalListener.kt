@@ -13,14 +13,13 @@ import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerInteractEntityEvent
 import org.bukkit.persistence.PersistentDataType
 import dev.mizarc.itembinds.ItemBinds
+import dev.mizarc.itembinds.utils.getStringMeta
 
 class ItemRemovalListener(private val plugin: ItemBinds) : Listener {
     @EventHandler
     fun onItemDrop(event: PlayerDropItemEvent) {
         val itemStack = event.itemDrop.itemStack
-        val itemMeta = itemStack.itemMeta
-        val key = NamespacedKey("persistentitems", "item")
-        if (itemMeta.persistentDataContainer.get(key, PersistentDataType.STRING) != null) {
+        if (itemStack.getStringMeta("item") != null) {
             event.isCancelled = true
         }
     }
@@ -32,17 +31,13 @@ class ItemRemovalListener(private val plugin: ItemBinds) : Listener {
         }
 
         // Cancel if item is in bottom
-        val key = NamespacedKey("persistentitems", "item")
         if (event.clickedInventory === event.view.bottomInventory) {
             return
         }
 
         // Cancel if item meta doesn't exist
-        val itemStack = event.cursor
-        val itemMeta = itemStack!!.itemMeta ?: return
-
-        // Check if item is trying to be placed in top slot
-        if (itemMeta.persistentDataContainer.get(key, PersistentDataType.STRING) != null) {
+        val itemStack = event.cursor ?: return
+        if (itemStack.getStringMeta("item") != null) {
             event.isCancelled = true
         }
     }
@@ -61,9 +56,7 @@ class ItemRemovalListener(private val plugin: ItemBinds) : Listener {
 
         // Cancel if no item in slot
         val itemStack = event.currentItem ?: return
-        val itemMeta = itemStack.itemMeta
-        val key = NamespacedKey(plugin, "persistent")
-        if (itemMeta.persistentDataContainer.get(key, PersistentDataType.STRING) != null) {
+        if (itemStack.getStringMeta("item") != null) {
             event.isCancelled = true
         }
     }
@@ -71,12 +64,8 @@ class ItemRemovalListener(private val plugin: ItemBinds) : Listener {
     @EventHandler
     fun onDragToInventory(event: InventoryDragEvent) {
         val itemStack = event.oldCursor
-        val itemMeta = itemStack.itemMeta
         val otherInv = event.view.topInventory
-        val key = NamespacedKey(plugin, "persistent")
-        if (itemMeta.persistentDataContainer.get(key, PersistentDataType.STRING) != null &&
-            otherInv === event.inventory
-        ) {
+        if (itemStack.getStringMeta("item") != null && otherInv === event.inventory) {
             event.isCancelled = true
         }
     }
@@ -86,35 +75,26 @@ class ItemRemovalListener(private val plugin: ItemBinds) : Listener {
         if (event.rightClicked !is ItemFrame) {
             return
         }
-        val key = NamespacedKey(plugin, "persistent")
         val mainHandItem = event.player.inventory.itemInMainHand
         val offHandItem = event.player.inventory.itemInOffHand
 
         // Cancel event if main hand has item
-        val mainHandItemMeta = mainHandItem.itemMeta
-        if (mainHandItemMeta != null) {
-            if (mainHandItemMeta.persistentDataContainer.get(key, PersistentDataType.STRING) != null) {
-                event.isCancelled = true
-            }
+        if (mainHandItem.getStringMeta("item") != null) {
+            event.isCancelled = true
         }
 
         // Cancel event if offhand has item and main hand is empty
-        val offHandItemMeta = offHandItem.itemMeta
-        if (offHandItemMeta != null) {
-            if (offHandItemMeta.persistentDataContainer.get(key, PersistentDataType.STRING) != null &&
-                mainHandItem.type == Material.AIR
-            ) {
-                event.isCancelled = true
-            }
+        if (offHandItem.getStringMeta("item") != null &&
+            mainHandItem.type == Material.AIR
+        ) {
+            event.isCancelled = true
         }
     }
 
     @EventHandler
     fun onBlockPlace(event: BlockPlaceEvent) {
         val itemStack = event.itemInHand
-        val itemMeta = itemStack.itemMeta
-        val key = NamespacedKey(plugin, "persistent")
-        if (itemMeta.persistentDataContainer.get(key, PersistentDataType.STRING) == null) {
+        if (itemStack.getStringMeta("item") == null) {
             return
         }
         event.isCancelled = true
@@ -123,10 +103,8 @@ class ItemRemovalListener(private val plugin: ItemBinds) : Listener {
     @EventHandler
     fun onPlayerDeath(event: PlayerDeathEvent) {
         val droppedItems = event.drops
-        val key = NamespacedKey(plugin, "persistent")
         for (droppedItem in droppedItems) {
-            val itemMeta = droppedItem.itemMeta
-            if (itemMeta.persistentDataContainer.get(key, PersistentDataType.STRING) != null) {
+            if (droppedItem.getStringMeta("item") != null) {
                 droppedItems.remove(droppedItem)
             }
         }

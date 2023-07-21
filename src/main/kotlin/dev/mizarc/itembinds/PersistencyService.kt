@@ -9,8 +9,6 @@ import java.util.UUID
 
 class PersistencyService(private val itemRepo: ItemRepository) {
     fun getItemsInInventory(inventory: PlayerInventory, itemId: UUID): List<ItemStack> {
-        val key = NamespacedKey("persistentitems", "item")
-
         // Add each individual ItemStack with persistent metadata in inventory to list
         val presentItems: MutableList<ItemStack> = ArrayList()
         for (itemSlot in inventory.contents!!) {
@@ -26,7 +24,6 @@ class PersistencyService(private val itemRepo: ItemRepository) {
     }
 
     fun getSlotsWithItems(inventory: PlayerInventory, itemId: UUID): List<Int> {
-        val key = NamespacedKey("persistentitems", "item")
 
         // Add each individual ItemStack with persistent metadata in inventory to list
         val presentItemSlots: MutableList<Int> = ArrayList()
@@ -36,9 +33,7 @@ class PersistencyService(private val itemRepo: ItemRepository) {
                 continue
             }
 
-            val itemMeta = inventoryContents[i]!!.itemMeta ?: continue
-            val flag = itemMeta.persistentDataContainer.get(key, PersistentDataType.STRING)
-                ?: continue
+            val flag = inventoryContents[i]!!.getStringMeta("item") ?: continue
             if (flag == itemId.toString()) {
                 presentItemSlots.add(i)
             }
