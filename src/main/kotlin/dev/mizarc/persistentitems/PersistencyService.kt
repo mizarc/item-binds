@@ -1,10 +1,10 @@
-package xyz.mizarc.persistentitems
+package dev.mizarc.persistentitems
 
 import org.bukkit.NamespacedKey
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.PlayerInventory
 import org.bukkit.persistence.PersistentDataType
-import xyz.mizarc.persistentitems.utils.getStringMeta
+import dev.mizarc.persistentitems.utils.getStringMeta
 import java.util.UUID
 
 class PersistencyService(private val itemRepo: ItemRepository) {

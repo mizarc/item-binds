@@ -5,7 +5,7 @@ plugins {
     id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
-group = "xyz.mizarc"
+group = "dev.mizarc"
 version = "1.0-SNAPSHOT"
 
 repositories {

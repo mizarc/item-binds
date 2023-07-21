@@ -1,4 +1,4 @@
-package xyz.mizarc.persistentitems.listeners;
+package dev.mizarc.persistentitems.listeners;
 
 import org.bukkit.NamespacedKey;
 import org.bukkit.event.EventHandler;
@@ -8,10 +8,10 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
-import xyz.mizarc.persistentitems.Item;
-import xyz.mizarc.persistentitems.ItemRepository
-import xyz.mizarc.persistentitems.PersistencyService
-import xyz.mizarc.persistentitems.PersistentItems;
+import dev.mizarc.persistentitems.Item;
+import dev.mizarc.persistentitems.ItemRepository
+import dev.mizarc.persistentitems.PersistencyService
+import dev.mizarc.persistentitems.PersistentItems;
 import java.util.*
 
 class ItemUseListener(private val itemRepo: ItemRepository) : Listener {

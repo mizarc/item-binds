@@ -1,4 +1,4 @@
-package xyz.mizarc.persistentitems.utils
+package dev.mizarc.persistentitems.utils
 
 import org.bukkit.*
 import org.bukkit.enchantments.Enchantment

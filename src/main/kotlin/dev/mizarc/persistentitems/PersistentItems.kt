@@ -1,12 +1,13 @@
-package xyz.mizarc.persistentitems;
+package dev.mizarc.persistentitems;
 
 import co.aikar.commands.PaperCommandManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.mizarc.persistentitems.commands.persistentitems.*;
-import xyz.mizarc.persistentitems.commands.PersistentItemsCommand;
-import xyz.mizarc.persistentitems.listeners.ItemRemovalListener
-import xyz.mizarc.persistentitems.listeners.ItemUseListener;
-import xyz.mizarc.persistentitems.listeners.PlayerLoadListener
+import dev.mizarc.persistentitems.commands.PersistentItemsCommand;
+import dev.mizarc.persistentitems.commands.persistentitems.*
+import dev.mizarc.persistentitems.listeners.ItemRemovalListener
+import dev.mizarc.persistentitems.listeners.ItemUseListener;
+import dev.mizarc.persistentitems.listeners.PlayerLoadListener
 import java.io.File
 
 import java.util.HashSet;

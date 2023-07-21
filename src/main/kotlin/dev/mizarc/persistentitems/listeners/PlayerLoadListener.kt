@@ -1,4 +1,4 @@
-package xyz.mizarc.persistentitems.listeners
+package dev.mizarc.persistentitems.listeners
 
 import org.bukkit.Bukkit
 import org.bukkit.NamespacedKey
@@ -9,12 +9,13 @@ import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerRespawnEvent
 import org.bukkit.inventory.Inventory
 import org.bukkit.persistence.PersistentDataType
-import xyz.mizarc.persistentitems.Item
-import xyz.mizarc.persistentitems.PersistencyService
-import xyz.mizarc.persistentitems.PlayerItemsRepository
+import dev.mizarc.persistentitems.Item
+import dev.mizarc.persistentitems.PersistencyService
+import dev.mizarc.persistentitems.PlayerItemsRepository
 
 class PlayerLoadListener(private val playerItemsRepository: PlayerItemsRepository,
-                         private val persistencyService: PersistencyService) : Listener {
+                         private val persistencyService: PersistencyService
+) : Listener {
     @EventHandler
     fun onPlayerJoin(event: PlayerJoinEvent) {
         giveItemsIfMissing(event.player)

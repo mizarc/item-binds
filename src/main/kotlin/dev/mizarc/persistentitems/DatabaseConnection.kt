@@ -1,4 +1,4 @@
-package xyz.mizarc.persistentitems
+package dev.mizarc.persistentitems
 
 import co.aikar.idb.Database
 import co.aikar.idb.DatabaseOptions

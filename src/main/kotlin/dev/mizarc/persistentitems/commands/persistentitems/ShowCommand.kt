@@ -1,4 +1,4 @@
-package xyz.mizarc.persistentitems.commands.persistentitems;
+package dev.mizarc.persistentitems.commands.persistentitems;
 
 import co.aikar.commands.ConditionFailedException;
 import co.aikar.commands.MessageKeys;
@@ -9,9 +9,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
-import xyz.mizarc.persistentitems.DatabaseConnection;
-import xyz.mizarc.persistentitems.Item;
-import xyz.mizarc.persistentitems.commands.PersistentItemsCommand;
+import dev.mizarc.persistentitems.DatabaseConnection;
+import dev.mizarc.persistentitems.Item;
+import dev.mizarc.persistentitems.commands.PersistentItemsCommand;
 import java.util.*
 
 @CommandAlias("persistentitems|pitems|pi")

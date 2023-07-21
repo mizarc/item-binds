@@ -1,8 +1,8 @@
-package xyz.mizarc.persistentitems
+package dev.mizarc.persistentitems
 
 
 import org.bukkit.inventory.ItemStack
-import xyz.mizarc.persistentitems.utils.setStringMeta
+import dev.mizarc.persistentitems.utils.setStringMeta
 
 
 import java.util.UUID

@@ -1,4 +1,4 @@
-package xyz.mizarc.persistentitems
+package dev.mizarc.persistentitems
 
 import org.bukkit.Bukkit
 import org.bukkit.configuration.file.FileConfiguration

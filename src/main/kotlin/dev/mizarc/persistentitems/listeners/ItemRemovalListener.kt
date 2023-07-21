@@ -1,4 +1,4 @@
-package xyz.mizarc.persistentitems.listeners
+package dev.mizarc.persistentitems.listeners
 
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
@@ -12,14 +12,14 @@ import org.bukkit.event.inventory.InventoryDragEvent
 import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerInteractEntityEvent
 import org.bukkit.persistence.PersistentDataType
-import xyz.mizarc.persistentitems.PersistentItems
+import dev.mizarc.persistentitems.PersistentItems
 
 class ItemRemovalListener(private val plugin: PersistentItems) : Listener {
     @EventHandler
     fun onItemDrop(event: PlayerDropItemEvent) {
         val itemStack = event.itemDrop.itemStack
         val itemMeta = itemStack.itemMeta
-        val key = NamespacedKey(plugin, "persistent")
+        val key = NamespacedKey("persistentitems", "item")
         if (itemMeta.persistentDataContainer.get(key, PersistentDataType.STRING) != null) {
             event.isCancelled = true
         }
@@ -32,7 +32,7 @@ class ItemRemovalListener(private val plugin: PersistentItems) : Listener {
         }
 
         // Cancel if item is in bottom
-        val key = NamespacedKey(plugin, "persistent")
+        val key = NamespacedKey("persistentitems", "item")
         if (event.clickedInventory === event.view.bottomInventory) {
             return
         }
