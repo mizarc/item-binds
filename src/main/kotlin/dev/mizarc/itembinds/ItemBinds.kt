@@ -31,11 +31,12 @@ class ItemBinds: JavaPlugin() {
         registerCommandCompletions()
         registerCommands()
         registerListeners()
+        logger.info("Item Binds has been enabled.")
     }
 
     override fun onDisable() {
         super.onDisable()
-        logger.info("Persistent Items has been disabled.")
+        logger.info("Item Binds has been disabled.")
     }
 
     private fun registerLocales() {

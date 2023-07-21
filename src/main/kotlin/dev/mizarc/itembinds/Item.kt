@@ -10,7 +10,7 @@ import java.util.UUID
 class Item(val id: UUID, var name: String, itemStack: ItemStack, var slot: Int,
            var commands: MutableList<String>, var isActive: Boolean) {
     var itemStack = itemStack
-        get() { return field.setStringMeta("ItemBinds", id.toString()) }
+        get() { return field.setStringMeta("item", id.toString()) }
 
     var unmodifiedItemStack = itemStack
 
