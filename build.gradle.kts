@@ -39,9 +39,9 @@ dependencies {
 }
 
 tasks.shadowJar {
-    relocate("co.aikar.commands", "xyz.mizarc.persistentitems.acf")
-    relocate("co.aikar.locales", "xyz.mizarc.persistentitems.locales")
-    relocate("co.aikar.idb", "xyz.mizarc.persistentitems.idb")
+    relocate("co.aikar.commands", "xyz.mizarc.itembinds.acf")
+    relocate("co.aikar.locales", "xyz.mizarc.itembinds.locales")
+    relocate("co.aikar.idb", "xyz.mizarcitembinds.idb")
 }
 
 tasks.test {
