@@ -19,11 +19,7 @@ class AddCmdCommand : ItemBindsCommand() {
         }
 
         // Concatenate command to be assigned
-        val stringBuilder = StringBuilder()
-        for (commandWord in commandArray) {
-            stringBuilder.append(commandWord)
-        }
-        val itemCommand = stringBuilder.toString()
+        val itemCommand = commandArray.joinToString(separator = " ")
 
         // Add assigned command to item
         item.commands.add(itemCommand)
