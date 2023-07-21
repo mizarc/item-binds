@@ -7,6 +7,7 @@ import xyz.mizarc.persistentitems.commands.PersistentItemsCommand;
 import xyz.mizarc.persistentitems.listeners.ItemRemovalListener
 import xyz.mizarc.persistentitems.listeners.ItemUseListener;
 import xyz.mizarc.persistentitems.listeners.PlayerLoadListener
+import java.io.File
 
 import java.util.HashSet;
 import java.util.Locale;
@@ -15,13 +16,14 @@ class PersistentItems: JavaPlugin() {
     private val config = Config(this)
     private lateinit var commandManager: PaperCommandManager
     private val databaseConnection = DatabaseConnection(this)
-    private val itemRepo = ItemRepository("items")
+    private val itemRepo = ItemRepository("$dataFolder/items")
     private val playerItemsRepo = PlayerItemsRepository(databaseConnection)
     private val persistencyService = PersistencyService(itemRepo)
 
     override fun onEnable() {
         super.onEnable()
 
+        File("$dataFolder/items").mkdir()
         commandManager = PaperCommandManager(this)
         registerLocales()
         transferResources()
