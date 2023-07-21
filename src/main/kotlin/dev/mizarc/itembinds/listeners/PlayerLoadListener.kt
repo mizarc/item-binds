@@ -1,4 +1,4 @@
-package dev.mizarc.persistentitems.listeners
+package dev.mizarc.itembinds.listeners
 
 import org.bukkit.Bukkit
 import org.bukkit.NamespacedKey
@@ -9,9 +9,9 @@ import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerRespawnEvent
 import org.bukkit.inventory.Inventory
 import org.bukkit.persistence.PersistentDataType
-import dev.mizarc.persistentitems.Item
-import dev.mizarc.persistentitems.PersistencyService
-import dev.mizarc.persistentitems.PlayerItemsRepository
+import dev.mizarc.itembinds.Item
+import dev.mizarc.itembinds.PersistencyService
+import dev.mizarc.itembinds.PlayerItemsRepository
 
 class PlayerLoadListener(private val playerItemsRepository: PlayerItemsRepository,
                          private val persistencyService: PersistencyService

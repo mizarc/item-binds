@@ -1,19 +1,18 @@
-package dev.mizarc.persistentitems;
+package dev.mizarc.itembinds;
 
 import co.aikar.commands.PaperCommandManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import xyz.mizarc.persistentitems.commands.persistentitems.*;
-import dev.mizarc.persistentitems.commands.PersistentItemsCommand;
-import dev.mizarc.persistentitems.commands.persistentitems.*
-import dev.mizarc.persistentitems.listeners.ItemRemovalListener
-import dev.mizarc.persistentitems.listeners.ItemUseListener;
-import dev.mizarc.persistentitems.listeners.PlayerLoadListener
+import dev.mizarc.itembinds.commands.PersistentItemsCommand;
+import dev.mizarc.itembinds.commands.persistentitems.*
+import dev.mizarc.itembinds.listeners.ItemRemovalListener
+import dev.mizarc.itembinds.listeners.ItemUseListener;
+import dev.mizarc.itembinds.listeners.PlayerLoadListener
 import java.io.File
 
 import java.util.HashSet;
 import java.util.Locale;
 
-class PersistentItems: JavaPlugin() {
+class ItemBinds: JavaPlugin() {
     private val config = Config(this)
     private lateinit var commandManager: PaperCommandManager
     private val databaseConnection = DatabaseConnection(this)

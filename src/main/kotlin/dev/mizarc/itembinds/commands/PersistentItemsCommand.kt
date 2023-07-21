@@ -1,11 +1,11 @@
-package dev.mizarc.persistentitems.commands;
+package dev.mizarc.itembinds.commands;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
 import org.bukkit.command.CommandSender;
-import dev.mizarc.persistentitems.ItemRepository
-import dev.mizarc.persistentitems.PersistencyService
-import dev.mizarc.persistentitems.PlayerItemsRepository
+import dev.mizarc.itembinds.ItemRepository
+import dev.mizarc.itembinds.PersistencyService
+import dev.mizarc.itembinds.PlayerItemsRepository
 
 @CommandAlias("persistentitems|pitems|pi")
 @CommandPermission("persistentitems.command")

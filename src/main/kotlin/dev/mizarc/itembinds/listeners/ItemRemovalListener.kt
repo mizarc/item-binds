@@ -1,4 +1,4 @@
-package dev.mizarc.persistentitems.listeners
+package dev.mizarc.itembinds.listeners
 
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
@@ -12,9 +12,9 @@ import org.bukkit.event.inventory.InventoryDragEvent
 import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerInteractEntityEvent
 import org.bukkit.persistence.PersistentDataType
-import dev.mizarc.persistentitems.PersistentItems
+import dev.mizarc.itembinds.ItemBinds
 
-class ItemRemovalListener(private val plugin: PersistentItems) : Listener {
+class ItemRemovalListener(private val plugin: ItemBinds) : Listener {
     @EventHandler
     fun onItemDrop(event: PlayerDropItemEvent) {
         val itemStack = event.itemDrop.itemStack

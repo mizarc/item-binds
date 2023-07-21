@@ -1,6 +1,5 @@
-package dev.mizarc.persistentitems
+package dev.mizarc.itembinds
 
-import co.aikar.idb.DB.executeUpdate
 import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
 import java.sql.SQLException

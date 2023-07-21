@@ -1,1 +1,1 @@
-rootProject.name = "PersistentItems"
+rootProject.name = "ItemBinds"

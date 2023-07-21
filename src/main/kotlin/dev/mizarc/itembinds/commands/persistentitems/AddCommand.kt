@@ -1,10 +1,9 @@
-package dev.mizarc.persistentitems.commands.persistentitems
+package dev.mizarc.itembinds.commands.persistentitems
 
 import co.aikar.commands.annotation.*
-import org.bukkit.Bukkit
 import org.bukkit.entity.Player
-import dev.mizarc.persistentitems.Item
-import dev.mizarc.persistentitems.commands.PersistentItemsCommand
+import dev.mizarc.itembinds.Item
+import dev.mizarc.itembinds.commands.PersistentItemsCommand
 
 @CommandAlias("persistentitems|pitems|pi")
 class AddCommand : PersistentItemsCommand() {
