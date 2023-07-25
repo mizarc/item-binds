@@ -4,11 +4,11 @@ import co.aikar.commands.annotation.*
 import org.bukkit.command.CommandSender
 import dev.mizarc.itembinds.commands.ItemBindsCommand
 
-@CommandAlias("persistentitems|pitems|pi")
+@CommandAlias("itembinds")
 class AddCmdCommand : ItemBindsCommand() {
 
     @Subcommand("addcmd")
-    @CommandPermission("persistentitems.command.addcommand")
+    @CommandPermission("itembinds.command.addcommand")
     @CommandCompletion("@pitems @nothing")
     @Syntax("<item> <command>")
     fun onAddCmd(sender: CommandSender, name: String, commandArray: Array<String?>) {

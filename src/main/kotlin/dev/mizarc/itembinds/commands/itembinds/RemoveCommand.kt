@@ -4,10 +4,10 @@ import co.aikar.commands.annotation.*
 import org.bukkit.command.CommandSender
 import dev.mizarc.itembinds.commands.ItemBindsCommand
 
-@CommandAlias("persistentitems|pitems|pi")
+@CommandAlias("itembinds")
 class RemoveCommand : ItemBindsCommand() {
     @Subcommand("remove")
-    @CommandPermission("persistentitems.command.remove")
+    @CommandPermission("itembinds.command.remove")
     @CommandCompletion("@pitems")
     @Syntax("<item>")
     fun onRemove(sender: CommandSender, name: String) {

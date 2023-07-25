@@ -12,11 +12,11 @@ import dev.mizarc.itembinds.Item;
 import dev.mizarc.itembinds.commands.ItemBindsCommand;
 import java.util.*
 
-@CommandAlias("persistentitems|pitems|pi")
+@CommandAlias("itembinds")
 class ShowCommand: ItemBindsCommand() {
 
     @Subcommand("show")
-    @CommandPermission("persistentitems.command.show")
+    @CommandPermission("itembinds.command.show")
     @CommandCompletion("@pitems @players")
     @Syntax("<item> [player]")
     fun onShow(sender: CommandSender, name: String, @Optional player: Player) {

@@ -5,10 +5,10 @@ import org.bukkit.entity.Player
 import dev.mizarc.itembinds.Item
 import dev.mizarc.itembinds.commands.ItemBindsCommand
 
-@CommandAlias("persistentitems|pitems|pi")
+@CommandAlias("itembinds")
 class AddCommand : ItemBindsCommand() {
     @Subcommand("add")
-    @CommandPermission("persistentitems.command.add")
+    @CommandPermission("itembinds.command.add")
     @CommandCompletion("@nothing @nothing")
     @Syntax("<item> <slot>")
     fun onAdd(player: Player, name: String, slot: Int) {

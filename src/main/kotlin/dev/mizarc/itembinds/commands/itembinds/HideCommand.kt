@@ -11,11 +11,11 @@ import dev.mizarc.itembinds.Item
 import dev.mizarc.itembinds.commands.ItemBindsCommand
 import java.util.*
 
-@CommandAlias("persistentitems|pitems|pi")
+@CommandAlias("itembinds")
 class HideCommand : ItemBindsCommand() {
 
     @Subcommand("hide")
-    @CommandPermission("persistentitems.command.hide")
+    @CommandPermission("itembinds.command.hide")
     @CommandCompletion("@pitems @players")
     @Syntax("<item> [player]")
     fun onHide(sender: CommandSender, name: String, @Optional player: Player) {

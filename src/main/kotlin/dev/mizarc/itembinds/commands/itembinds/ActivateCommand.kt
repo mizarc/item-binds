@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.inventory.ItemStack;
 import dev.mizarc.itembinds.commands.ItemBindsCommand
 
-@CommandAlias("persistentitems|pitems|pi")
+@CommandAlias("itembinds")
 class ActivateCommand: ItemBindsCommand() {
     @Subcommand("activate")
     @CommandPermission("persistentitems.command.activate")
