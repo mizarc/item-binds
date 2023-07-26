@@ -19,18 +19,12 @@ class ShowCommand: ItemBindsCommand() {
     @CommandPermission("itembinds.command.show")
     @CommandCompletion("@pitems @players")
     @Syntax("<item> [player]")
-    fun onShow(sender: CommandSender, name: String, @Optional player: Player) {
+    fun onShow(sender: CommandSender, name: String) {
         val item = itemRepo.getByName(name).firstOrNull()
 
         // Error if persistent item is not active
         if (item == null) {
             sender.sendMessage("Item $name does not exist");
-            return;
-        }
-
-        // Forward command to 'others' version if player argument is specified
-        if (player != null) {
-            onShowOthers(sender, item, player);
             return;
         }
 
@@ -41,13 +35,12 @@ class ShowCommand: ItemBindsCommand() {
         }
 
         //Add item to own inventory unless you already have it
-        val selfPlayer = sender as Player
-        if (!addToInventory(player.getInventory(), item.id)) {
+        if (!addToInventory(sender.inventory, item.id)) {
             sender.sendMessage("Item ${item.name} is already in your inventory");
             return;
         }
 
-        playerItemsRepo.remove(player, item)
+        playerItemsRepo.remove(sender, item)
         sender.sendMessage("Item ${item.name} has been added to your inventory");
     }
 

@@ -18,17 +18,11 @@ class HideCommand : ItemBindsCommand() {
     @CommandPermission("itembinds.command.hide")
     @CommandCompletion("@pitems @players")
     @Syntax("<item> [player]")
-    fun onHide(sender: CommandSender, name: String, @Optional player: Player) {
+    fun onHide(sender: CommandSender, name: String) {
         // Error if persistent item is not active
         val item = itemRepo.getByName(name).firstOrNull()
         if (item == null) {
             sender.sendMessage("Item $sender does not exist")
-            return
-        }
-
-        // Forward command to 'others' version if player argument is specified
-        if (player != null) {
-            onHideOthers(sender, item, player)
             return
         }
 
@@ -39,13 +33,12 @@ class HideCommand : ItemBindsCommand() {
         }
 
         // Remove item from own inventory unless you don't have it
-        val selfPlayer = sender
-        if (!removeFromInventory(selfPlayer.inventory, item)) {
-            sender.sendMessage("Item ${item.id} is not in your inventory")
+        if (!removeFromInventory(sender.inventory, item)) {
+            sender.sendMessage("Item ${item.name} is not in your inventory")
             return
         }
-        playerItemsRepo.add(selfPlayer, item)
-        sender.sendMessage("Item ${item.id} has been removed from your inventory")
+        playerItemsRepo.add(sender, item)
+        sender.sendMessage("Item ${item.name} has been removed from your inventory")
     }
 
     private fun onHideOthers(sender: CommandSender, item: Item, player: Player) {
@@ -56,12 +49,12 @@ class HideCommand : ItemBindsCommand() {
 
         // Remove item from specified player's inventory unless player doesn't have it
         if (!removeFromInventory(player.inventory, item)) {
-            sender.sendMessage("Item ${item.id} is not in ${player.displayName()}'s inventory")
+            sender.sendMessage("Item ${item.name} is not in ${player.displayName()}'s inventory")
             return
         }
 
         playerItemsRepo.add(player, item)
-        sender.sendMessage("Item ${item.id} has been removed from ${player.displayName()}'s inventory")
+        sender.sendMessage("Item ${item.name} has been removed from ${player.displayName()}'s inventory")
     }
 
     private fun removeFromInventory(inventory: PlayerInventory, item: Item): Boolean {
