@@ -1,6 +1,5 @@
 package dev.mizarc.itembinds
 
-import org.bukkit.Bukkit
 import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File
@@ -72,7 +71,6 @@ class ItemRepository(private val folderName: String) {
             val config: FileConfiguration = YamlConfiguration.loadConfiguration(file)
             val name = config.getString("name") ?: continue
             val itemStack = config.getItemStack("item") ?: continue
-            Bukkit.getLogger().info("$itemStack")
             val item = Item(UUID.fromString(config.getString("id")),
                 name,
                 itemStack,
